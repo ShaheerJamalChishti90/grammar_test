@@ -21,36 +21,6 @@
             margin: 0 auto;
             padding: 20px;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary);
-        }
-        .header h1 {
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-        .header h3 {
-            color: var(--secondary);
-            margin-top: 0;
-            font-weight: normal;
-        }
-        .student-info {
-            display: flex;
-            justify-content: space-between;
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-        }
-        .student-info input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
         .section-title {
             background-color: var(--primary);
             color: white;
@@ -126,23 +96,6 @@
     </style>
 </head>
 <body>
-
-    <div class="header">
-        <h1>English Grammar Examination</h1>
-        <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
-        <p>9th Grade | Total Marks: 65</p>
-    </div>
-
-    <div class="student-info">
-        <div>
-            <label>Name: </label>
-            <input type="text" id="student-name" placeholder="Enter full name">
-        </div>
-        <div>
-            <label>Date: </label>
-            <input type="date" id="test-date">
-        </div>
-    </div>
 
     <div id="score-display">Final Score: <span id="final-score">0</span> / 65</div>
 
@@ -261,8 +214,6 @@
 
         // Event Listener for "Enter" key
         document.querySelectorAll('input[type="text"]').forEach(input => {
-            if (input.id === 'student-name') return; 
-
             input.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     const idx = this.getAttribute('data-index');
@@ -280,7 +231,6 @@
 
             let studentAnswer = inputElement.value.trim();
             let correctAnswer = data.a.trim();
-            let isCorrect = false;
 
             // Handle strict vs flexible case matching
             if (!data.strictCase) {
@@ -294,7 +244,6 @@
 
             if (studentAnswer === correctAnswer) {
                 inputElement.className = 'correct';
-                isCorrect = true;
                 score++;
             } else {
                 inputElement.className = 'incorrect';
@@ -313,4 +262,3 @@
         }
     </script>
 </body>
-</html>
