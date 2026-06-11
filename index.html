@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SJC Tech Solutions - Online Examination System</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --correct: #d4edda;
+            --correct-border: #c3e6cb;
+            --incorrect: #f8d7da;
+            --incorrect-border: #f5c6cb;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .header h1 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .header h3 {
+            color: var(--secondary);
+            margin-top: 0;
+            font-weight: normal;
+        }
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .student-info input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .section-title {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+        .question-block {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .question-text {
+            font-weight: 500;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        input.correct {
+            background-color: var(--correct);
+            border-color: var(--correct-border);
+            color: #155724;
+        }
+        input.incorrect {
+            background-color: var(--incorrect);
+            border-color: var(--incorrect-border);
+            color: #721c24;
+        }
+        .controls {
+            text-align: center;
+            margin: 40px 0;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #2ecc71;
+        }
+        #score-display {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        /* Print Styles for PDF Generation */
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            .controls { display: none; }
+            .question-block { box-shadow: none; border: 1px solid #eee; page-break-inside: avoid; }
+            input[type="text"] { border: 1px solid #ccc; }
+            #score-display { display: block !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>English Grammar Examination</h1>
+        <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
+        <p>9th Grade | Total Marks: 65</p>
+    </div>
+
+    <div class="student-info">
+        <div>
+            <label>Name: </label>
+            <input type="text" id="student-name" placeholder="Enter full name">
+        </div>
+        <div>
+            <label>Date: </label>
+            <input type="date" id="test-date">
+        </div>
+    </div>
+
+    <div id="score-display">Final Score: <span id="final-score">0</span> / 65</div>
+
+    <div id="quiz-container"></div>
+
+    <div class="controls">
+        <button onclick="finishTest()">Finish & Save as PDF</button>
+    </div>
+
+    <script>
+        const quizData = [
+            { section: "PART 1: THE CAPITAL LETTER & PUNCTUATION", sub: "A. Capital Letters", q: "we are going to london next monday.", a: "We are going to London next Monday.", strictCase: true },
+            { sub: "A. Capital Letters", q: "the eiffel tower is located in france.", a: "The Eiffel Tower is located in France.", strictCase: true },
+            { sub: "A. Capital Letters", q: "my favorite month of the year is december.", a: "My favorite month of the year is December.", strictCase: true },
+            { sub: "A. Capital Letters", q: "i told sarah to bring the book.", a: "I told Sarah to bring the book.", strictCase: true },
+            { sub: "A. Capital Letters", q: "mr. brown is our new science teacher.", a: "Mr. Brown is our new science teacher.", strictCase: true },
+            
+            { sub: "B. The Full Stop", q: "The cat slept on the warm mat", a: "The cat slept on the warm mat.", strictCase: false },
+            { sub: "B. The Full Stop", q: "Running quickly through the dark forest", a: "Incomplete", strictCase: false },
+            { sub: "B. The Full Stop", q: "Please pass the salt", a: "Please pass the salt.", strictCase: false },
+            { sub: "B. The Full Stop", q: "She bought apples, oranges, and bananas", a: "She bought apples, oranges, and bananas.", strictCase: false },
+            { sub: "B. The Full Stop", q: "Because it was raining outside", a: "Incomplete", strictCase: false },
+
+            { sub: "C. The Comma", q: "I need to buy milk bread eggs and butter.", a: "I need to buy milk, bread, eggs, and butter.", strictCase: false },
+            { sub: "C. The Comma", q: "Yes I would love to come to your party.", a: "Yes, I would love to come to your party.", strictCase: false },
+            { sub: "C. The Comma", q: "Although he was tired he finished his homework.", a: "Although he was tired, he finished his homework.", strictCase: false },
+            { sub: "C. The Comma", q: "My brother a talented musician plays the piano.", a: "My brother, a talented musician, plays the piano.", strictCase: false },
+            { sub: "C. The Comma", q: "Well I don't think that's a good idea.", a: "Well, I don't think that's a good idea.", strictCase: false },
+
+            { sub: "D. The Question Mark (Enter . or ?)", q: "What time does the train arrive", a: "?", strictCase: false },
+            { sub: "D. The Question Mark (Enter . or ?)", q: "I wonder what time the train arrives", a: ".", strictCase: false },
+            { sub: "D. The Question Mark (Enter . or ?)", q: "Did you remember to lock the front door", a: "?", strictCase: false },
+            { sub: "D. The Question Mark (Enter . or ?)", q: "Please ask him if he locked the door", a: ".", strictCase: false },
+            { sub: "D. The Question Mark (Enter . or ?)", q: "Why is the sky blue", a: "?", strictCase: false },
+
+            { sub: "E. The Exclamation Mark (Enter !)", q: "Watch out for that car", a: "!", strictCase: false },
+            { sub: "E. The Exclamation Mark (Enter !)", q: "Wow, what a beautiful sunset", a: "!", strictCase: false },
+            { sub: "E. The Exclamation Mark (Enter !)", q: "I can't believe we won the championship", a: "!", strictCase: false },
+            { sub: "E. The Exclamation Mark (Enter !)", q: "Ouch, I stubbed my toe", a: "!", strictCase: false },
+            { sub: "E. The Exclamation Mark (Enter !)", q: "Help me", a: "!", strictCase: false },
+
+            { sub: "F. The Apostrophe", q: "This is Peters backpack.", a: "This is Peter's backpack.", strictCase: false },
+            { sub: "F. The Apostrophe", q: "I cant find my keys anywhere.", a: "I can't find my keys anywhere.", strictCase: false },
+            { sub: "F. The Apostrophe", q: "The dogs tail started wagging.", a: "The dog's tail started wagging.", strictCase: false },
+            { sub: "F. The Apostrophe", q: "Theyre going to the park later.", a: "They're going to the park later.", strictCase: false },
+            { sub: "F. The Apostrophe", q: "The childrens playground is closed.", a: "The children's playground is closed.", strictCase: false },
+
+            { section: "PART 2: NOUNS", sub: "A. Common Nouns (Separate multiple with a comma)", q: "The bird flew into the tree.", a: "bird, tree", strictCase: false },
+            { sub: "A. Common Nouns", q: "My teacher is very kind.", a: "teacher", strictCase: false },
+            { sub: "A. Common Nouns", q: "Please put the book on the table.", a: "book, table", strictCase: false },
+            { sub: "A. Common Nouns", q: "The doctor works in a hospital.", a: "doctor, hospital", strictCase: false },
+            { sub: "A. Common Nouns", q: "The baby is drinking milk.", a: "baby, milk", strictCase: false },
+
+            { sub: "B. Proper Nouns (Separate multiple with a comma)", q: "We traveled to Japan last summer.", a: "Japan", strictCase: true },
+            { sub: "B. Proper Nouns", q: "Harry Potter is a famous wizard.", a: "Harry Potter", strictCase: true },
+            { sub: "B. Proper Nouns", q: "My friend Emily lives on Oak Street.", a: "Emily, Oak Street", strictCase: true },
+            { sub: "B. Proper Nouns", q: "The Titanic sank in the Atlantic Ocean.", a: "Titanic, Atlantic Ocean", strictCase: true },
+            { sub: "B. Proper Nouns", q: "Let's meet at Central Park on Friday.", a: "Central Park, Friday", strictCase: true },
+
+            { sub: "C. Collective Nouns [ flock | herd | swarm | pride | school ]", q: "A _____ of lions rested in the sun.", a: "pride", strictCase: false },
+            { sub: "C. Collective Nouns", q: "The farmer watched his _____ of sheep.", a: "herd", strictCase: false },
+            { sub: "C. Collective Nouns", q: "We saw a _____ of fish swimming in the coral reef.", a: "school", strictCase: false },
+            { sub: "C. Collective Nouns", q: "A _____ of bees gathered around the hive.", a: "swarm", strictCase: false },
+            { sub: "C. Collective Nouns", q: "A _____ of birds flew south for the winter.", a: "flock", strictCase: false },
+
+            { sub: "D. Abstract Nouns (Separate multiple with a comma)", q: "Honesty is always the best policy.", a: "Honesty, policy", strictCase: false },
+            { sub: "D. Abstract Nouns", q: "The soldier showed great bravery.", a: "bravery", strictCase: false },
+            { sub: "D. Abstract Nouns", q: "She has a lot of patience with children.", a: "patience", strictCase: false },
+            { sub: "D. Abstract Nouns", q: "Knowledge is the key to success.", a: "Knowledge, success", strictCase: false },
+            { sub: "D. Abstract Nouns", q: "The beauty of the painting amazed us.", a: "beauty", strictCase: false },
+
+            { sub: "E. Countable & Uncountable Nouns (Enter C or U)", q: "Water", a: "U", strictCase: false },
+            { sub: "E. Countable & Uncountable Nouns (Enter C or U)", q: "Apple", a: "C", strictCase: false },
+            { sub: "E. Countable & Uncountable Nouns (Enter C or U)", q: "Information", a: "U", strictCase: false },
+            { sub: "E. Countable & Uncountable Nouns (Enter C or U)", q: "Chair", a: "C", strictCase: false },
+            { sub: "E. Countable & Uncountable Nouns (Enter C or U)", q: "Music", a: "U", strictCase: false },
+
+            { sub: "F. Singular & Plural Nouns", q: "Box ➔", a: "Boxes", strictCase: false },
+            { sub: "F. Singular & Plural Nouns", q: "Baby ➔", a: "Babies", strictCase: false },
+            { sub: "F. Singular & Plural Nouns", q: "Man ➔", a: "Men", strictCase: false },
+            { sub: "F. Singular & Plural Nouns", q: "Leaf ➔", a: "Leaves", strictCase: false },
+            { sub: "F. Singular & Plural Nouns", q: "Tooth ➔", a: "Teeth", strictCase: false },
+
+            { sub: "G. Masculine & Feminine Nouns", q: "Brother ➔", a: "Sister", strictCase: false },
+            { sub: "G. Masculine & Feminine Nouns", q: "King ➔", a: "Queen", strictCase: false },
+            { sub: "G. Masculine & Feminine Nouns", q: "Tiger ➔", a: "Tigress", strictCase: false },
+            { sub: "G. Masculine & Feminine Nouns", q: "Actor ➔", a: "Actress", strictCase: false },
+            { sub: "G. Masculine & Feminine Nouns", q: "Uncle ➔", a: "Aunt", strictCase: false }
+        ];
+
+        let score = 0;
+        const container = document.getElementById('quiz-container');
+
+        // Render Questions
+        quizData.forEach((item, index) => {
+            if (item.section) {
+                const secTitle = document.createElement('h2');
+                secTitle.className = 'section-title';
+                secTitle.innerText = item.section;
+                container.appendChild(secTitle);
+            }
+            if (index === 0 || quizData[index - 1].sub !== item.sub) {
+                const subTitle = document.createElement('h3');
+                subTitle.innerText = item.sub;
+                container.appendChild(subTitle);
+            }
+
+            const qBlock = document.createElement('div');
+            qBlock.className = 'question-block';
+            qBlock.innerHTML = `
+                <div class="question-text">${index + 1}. ${item.q}</div>
+                <input type="text" id="q${index}" placeholder="Type answer and press Enter..." data-index="${index}">
+            `;
+            container.appendChild(qBlock);
+        });
+
+        // Event Listener for "Enter" key
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            if (input.id === 'student-name') return; 
+
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const idx = this.getAttribute('data-index');
+                    checkAnswer(this, quizData[idx]);
+                    // Move to next input automatically
+                    const nextInput = document.getElementById(`q${parseInt(idx) + 1}`);
+                    if (nextInput) nextInput.focus();
+                }
+            });
+        });
+
+        // Validation Logic
+        function checkAnswer(inputElement, data) {
+            if (inputElement.disabled) return; // Prevent re-grading
+
+            let studentAnswer = inputElement.value.trim();
+            let correctAnswer = data.a.trim();
+            let isCorrect = false;
+
+            // Handle strict vs flexible case matching
+            if (!data.strictCase) {
+                studentAnswer = studentAnswer.toLowerCase();
+                correctAnswer = correctAnswer.toLowerCase();
+            }
+
+            // Remove extra spaces for multi-word noun answers (e.g., "bird, tree")
+            studentAnswer = studentAnswer.replace(/\s*,\s*/g, ',');
+            correctAnswer = correctAnswer.replace(/\s*,\s*/g, ',');
+
+            if (studentAnswer === correctAnswer) {
+                inputElement.className = 'correct';
+                isCorrect = true;
+                score++;
+            } else {
+                inputElement.className = 'incorrect';
+                // Optional: Show correct answer inside input
+                inputElement.value = `${inputElement.value} (Correct: ${data.a})`;
+            }
+
+            inputElement.disabled = true; // Lock answer after hitting Enter
+        }
+
+        // Finalize and Print
+        function finishTest() {
+            document.getElementById('score-display').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            window.print();
+        }
+    </script>
+</body>
+</html>
