@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprehensive English Grammar Test: Pronouns</title>
     <style>
+        /* Force browsers to print background colors for the final report */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
@@ -54,7 +60,7 @@
         }
         button {
             display: block;
-            width: 100%;
+            flex: 1;
             padding: 15px;
             font-size: 1.2em;
             font-weight: bold;
@@ -63,14 +69,32 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 30px;
-            margin-bottom: 50px;
             transition: background 0.3s;
         }
         button:hover {
             background: #1a252f;
         }
         
+        .submit-btn {
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            margin-bottom: 50px;
+        }
+
+        .download-btn {
+            background: #27ae60;
+        }
+        .download-btn:hover {
+            background: #219653;
+        }
+
         /* --- Final Report Dark Fill Styles --- */
         .report-card {
             background: #fff;
@@ -80,7 +104,6 @@
             margin-bottom: 20px;
         }
         
-        /* Dark Green Fill for Correct Answers */
         .correct-fill {
             background-color: #1b5e20; 
             color: #ffffff;
@@ -90,7 +113,6 @@
             font-weight: bold;
         }
         
-        /* Dark Red Fill for Wrong Answers */
         .wrong-fill {
             background-color: #b71c1c; 
             color: #ffffff;
@@ -100,7 +122,6 @@
             font-weight: bold;
         }
 
-        /* Dark Blue Fill for showing the correct answer when the user is wrong */
         .correct-answer-note {
             background-color: #0d47a1; 
             color: #ffffff;
@@ -124,6 +145,21 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
+
+        /* --- Print Styles to make the downloaded PDF look perfect --- */
+        @media print {
+            body {
+                background-color: #fff;
+            }
+            .action-buttons, button {
+                display: none !important; /* Hides buttons in the PDF */
+            }
+            .report-card, .score-header {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid; /* Prevents questions from splitting across pages */
+            }
+        }
     </style>
 </head>
 <body>
@@ -132,14 +168,18 @@
         <h1>Pronouns Grammar Test</h1>
         <p style="text-align: center;">Select the correct pronoun for each sentence.</p>
         <div id="quiz-container"></div>
-        <button onclick="submitQuiz()">Submit Test & View Report</button>
+        <button class="submit-btn" onclick="submitQuiz()">Submit Test & View Report</button>
     </div>
 
     <div id="results">
         <h1>Final Report</h1>
         <div id="score-container" class="score-header"></div>
         <div id="report-container"></div>
-        <button onclick="location.reload()">Retake Test</button>
+        
+        <div class="action-buttons">
+            <button class="download-btn" onclick="window.print()">Download Report (PDF)</button>
+            <button onclick="location.reload()">Retake Test</button>
+        </div>
     </div>
 
     <script>
