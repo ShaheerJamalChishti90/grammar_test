@@ -3,329 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pronouns Examination - SJC Tech</title>
+    <title>Comprehensive English Grammar Test: Pronouns</title>
     <style>
-        :root {
-            --primary: #1f3a93;
-            --secondary: #34495e;
-            /* DARK CONTRAST COLORS */
-            --correct-dark: #006400; /* Dark Freaking Green */
-            --incorrect-dark: #8B0000; /* Dark Freaking Red */
-        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f7;
+            background-color: #f4f7f6;
             color: #333;
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px;
+            line-height: 1.6;
         }
-        .header {
+        h1, h2 {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--primary);
+            color: #2c3e50;
         }
-        .header h1 { color: var(--primary); margin-bottom: 5px; }
-        .header h3 { color: var(--secondary); margin-top: 0; font-weight: normal; }
-        
-        .section-title {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            border-radius: 5px;
-            margin-top: 40px;
-            margin-bottom: 0px;
-        }
-        .example-instruction {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 10px 15px;
-            border-left: 5px solid #ffeeba;
-            border-radius: 0 0 5px 5px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            font-style: italic;
-        }
-        .question-block {
-            background: white;
-            padding: 15px;
-            margin-bottom: 15px;
+        .quiz-card {
+            background: #fff;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        .question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .options {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-        .question-text { font-weight: 500; font-size: 16px; }
-        .options-text { font-size: 14px; color: #555; margin-bottom: 5px; }
-        
-        input[type="text"] {
-            padding: 12px;
-            border: 2px solid #ccc;
+        .option-label {
+            padding: 12px 15px;
             border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s;
-            width: 100%;
-            box-sizing: border-box;
+            background: #e9ecef;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
         }
-        /* DARK COLOR FEEDBACK */
-        input.correct {
-            background-color: var(--correct-dark) !important;
-            border-color: #004d00 !important;
-            color: white !important;
+        .option-label:hover {
+            background: #dee2e6;
         }
-        input.incorrect {
-            background-color: var(--incorrect-dark) !important;
-            border-color: #660000 !important;
-            color: white !important;
+        input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
         }
-        
-        .controls { text-align: center; margin: 40px 0; }
         button {
-            background-color: #27ae60;
-            color: white;
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            background: #2c3e50;
+            color: #fff;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover { background-color: #219150; }
-        
-        #score-display {
-            font-size: 28px;
-            font-weight: bold;
-            text-align: center;
             margin-top: 30px;
+            margin-bottom: 50px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #1a252f;
+        }
+        
+        /* --- Final Report Dark Fill Styles --- */
+        .report-card {
+            background: #fff;
             padding: 20px;
-            background: #e8f8f5;
             border-radius: 8px;
-            display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        
+        /* Dark Green Fill for Correct Answers */
+        .correct-fill {
+            background-color: #1b5e20; 
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        /* Dark Red Fill for Wrong Answers */
+        .wrong-fill {
+            background-color: #b71c1c; 
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
         }
 
-        /* Error Report Styles */
-        #error-report {
+        /* Dark Blue Fill for showing the correct answer when the user is wrong */
+        .correct-answer-note {
+            background-color: #0d47a1; 
+            color: #ffffff;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        
+        #results {
             display: none;
-            margin-top: 40px;
-            background: white;
+        }
+        .score-header {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            background: #fff;
             padding: 20px;
             border-radius: 8px;
-            border-top: 5px solid var(--incorrect-dark);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        #error-report h2 { color: var(--incorrect-dark); margin-top: 0; }
-        .error-item {
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
-        }
-        .error-item:last-child { border-bottom: none; }
-        .wrong-ans { color: var(--incorrect-dark); font-weight: bold; }
-        .right-ans { color: var(--correct-dark); font-weight: bold; }
-        .reason-text { font-style: italic; color: #555; background: #f9f9f9; padding: 10px; border-radius: 4px; margin-top: 8px; }
-
-        @media print {
-            body { background: white; margin: 0; padding: 0; }
-            .controls { display: none; }
-            .question-block { box-shadow: none; border: 1px solid #eee; page-break-inside: avoid; }
-            #error-report { display: block !important; page-break-before: always; box-shadow: none; border: 1px solid #ccc; }
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Comprehensive English Grammar Test: Pronouns</h1>
-        <h3>Total Questions: 50 | Topic: Personal, Reflexive, Demonstrative, Interrogative, Relative</h3>
+    <div id="quiz-view">
+        <h1>Pronouns Grammar Test</h1>
+        <p style="text-align: center;">Select the correct pronoun for each sentence.</p>
+        <div id="quiz-container"></div>
+        <button onclick="submitQuiz()">Submit Test & View Report</button>
     </div>
 
-    <div id="quiz-container"></div>
-    
-    <div class="controls">
-        <button onclick="finishTest()">Finish & Generate Report (PDF)</button>
+    <div id="results">
+        <h1>Final Report</h1>
+        <div id="score-container" class="score-header"></div>
+        <div id="report-container"></div>
+        <button onclick="location.reload()">Retake Test</button>
     </div>
-
-    <div id="score-display">Final Score: <span id="final-score">0</span> / 50</div>
-    <div id="error-report"></div>
 
     <script>
-        const quizData = [
-            // SECTION 1: PERSONAL PRONOUNS
-            { section: "Section 1: Personal Pronouns", example: "Example Answer: Type the exact word from the options (e.g., 'me', 'they') into the blank and press Enter.", q: "1. My brother and ___ went to the park yesterday.", options: "A) me  B) I  C) mine  D) myself", a: "I" },
-            { q: "2. The teacher handed the test papers to ___.", options: "A) they  B) their  C) them  D) theirs", a: "them" },
-            { q: "3. ___ are planning to travel to Japan next summer.", options: "A) Us  B) We  C) Our  D) Ours", a: "We" },
-            { q: "4. Please tell ___ that the meeting has been canceled.", options: "A) she  B) hers  C) her  D) herself", a: "her" },
-            { q: "5. The package arrived today. I left ___ on the kitchen counter.", options: "A) them  B) its  C) they  D) it", a: "it" },
-            { q: "6. Sarah is my best friend. ___ always helps me with my homework.", options: "A) Her  B) She  C) They  D) He", a: "She" },
-            { q: "7. The principal wants to speak with you and ___ after class.", options: "A) I  B) mine  C) me  D) my", a: "me" },
-            { q: "8. David forgot his lunch, so I shared my sandwich with ___.", options: "A) him  B) he  C) his  D) himself", a: "him" },
-            { q: "9. Are ___ coming to the birthday party tonight?", options: "A) yours  B) you  C) them  D) us", a: "you" },
-            { q: "10. The dog was hungry, so we fed ___ some chicken.", options: "A) it  B) its  C) they  D) he", a: "it" },
+        // Full array of 50 questions structured for the application
+        const questions = [
+            // Section 1: Personal Pronouns
+            { q: "1. My brother and ___ went to the park yesterday.", options: ["me", "I", "mine", "myself"], answer: 1 },
+            { q: "2. The teacher handed the test papers to ___.", options: ["they", "their", "them", "theirs"], answer: 2 },
+            { q: "3. ___ are planning to travel to Japan next summer.", options: ["Us", "We", "Our", "Ours"], answer: 1 },
+            { q: "4. Please tell ___ that the meeting has been canceled.", options: ["she", "hers", "her", "herself"], answer: 2 },
+            { q: "5. The package arrived today. I left ___ on the kitchen counter.", options: ["them", "its", "they", "it"], answer: 3 },
+            { q: "6. Sarah is my best friend. ___ always helps me with my homework.", options: ["Her", "She", "They", "He"], answer: 1 },
+            { q: "7. The principal wants to speak with you and ___ after class.", options: ["I", "mine", "me", "my"], answer: 2 },
+            { q: "8. David forgot his lunch, so I shared my sandwich with ___.", options: ["him", "he", "his", "himself"], answer: 0 },
+            { q: "9. Are ___ coming to the birthday party tonight?", options: ["yours", "you", "them", "us"], answer: 1 },
+            { q: "10. The dog was hungry, so we fed ___ some chicken.", options: ["it", "its", "they", "he"], answer: 0 },
 
-            // SECTION 2: REFLEXIVE PRONOUNS
-            { section: "Section 2: Reflexive Pronouns", example: "Example Answer: Type the exact word (e.g., 'myself', 'themselves') into the blank and press Enter.", q: "11. I baked this chocolate cake all by ___.", options: "A) me  B) myself  C) mine  D) yourself", a: "myself" },
-            { q: "12. The kids are old enough to look after ___.", options: "A) themself  B) theirselves  C) themselves  D) them", a: "themselves" },
-            { q: "13. He accidentally cut ___ while chopping vegetables.", options: "A) himself  B) hisself  C) him  D) itself", a: "himself" },
-            { q: "14. She looked at ___ in the mirror before leaving the house.", options: "A) her  B) hers  C) herself  D) themselves", a: "herself" },
-            { q: "15. We built the treehouse entirely by ___.", options: "A) ourself  B) ourselves  C) us  D) themselves", a: "ourselves" },
-            { q: "16. The computer turned ___ off to save power.", options: "A) itself  B) himself  C) itselfs  D) it", a: "itself" },
-            { q: "17. John, you need to learn to believe in ___.", options: "A) yourselves  B) yourself  C) himself  D) myself", a: "yourself" },
-            { q: "18. Children, please behave ___ while the guest teacher is here.", options: "A) yourself  B) yourselves  C) themselves  D) ourselves", a: "yourselves" },
-            { q: "19. The cat washed ___ carefully after eating dinner.", options: "A) itself  B) themselves  C) himself  D) herself", a: "itself" },
-            { q: "20. The CEO ___ welcomed the new employees to the company.", options: "A) itself  B) themselves  C) himself  D) himselfs", a: "himself" },
+            // Section 2: Reflexive Pronouns
+            { q: "11. I baked this chocolate cake all by ___.", options: ["me", "myself", "mine", "yourself"], answer: 1 },
+            { q: "12. The kids are old enough to look after ___.", options: ["themself", "theirselves", "themselves", "them"], answer: 2 },
+            { q: "13. He accidentally cut ___ while chopping vegetables.", options: ["himself", "hisself", "him", "itself"], answer: 0 },
+            { q: "14. She looked at ___ in the mirror before leaving the house.", options: ["her", "hers", "herself", "themselves"], answer: 2 },
+            { q: "15. We built the treehouse entirely by ___.", options: ["ourself", "ourselves", "us", "themselves"], answer: 1 },
+            { q: "16. The computer turned ___ off to save power.", options: ["itself", "himself", "itselfs", "it"], answer: 0 },
+            { q: "17. John, you need to learn to believe in ___.", options: ["yourselves", "yourself", "himself", "myself"], answer: 1 },
+            { q: "18. Children, please behave ___ while the guest teacher is here.", options: ["yourself", "yourselves", "themselves", "ourselves"], answer: 1 },
+            { q: "19. The cat washed ___ carefully after eating dinner.", options: ["itself", "themselves", "himself", "herself"], answer: 0 },
+            { q: "20. The CEO ___ welcomed the new employees to the company.", options: ["itself", "themselves", "himself", "himselfs"], answer: 2 },
 
-            // SECTION 3: DEMONSTRATIVE PRONOUNS
-            { section: "Section 3: Demonstrative Pronouns", example: "Example Answer: Type the exact word (e.g., 'This', 'those') into the blank and press Enter.", q: "21. ___ is the best meal I have ever eaten! (Holding the food)", options: "A) This  B) That  C) These  D) Those", a: "This" },
-            { q: "22. Look at the birds high up in the sky. ___ are bald eagles.", options: "A) This  B) That  C) These  D) Those", a: "Those" },
-            { q: "23. Are ___ your shoes left by the front door? (Pointing far away)", options: "A) this  B) that  C) these  D) those", a: "those" },
-            { q: "24. I love the cookies on this plate. ___ are delicious!", options: "A) This  B) That  C) These  D) Those", a: "These" },
-            { q: "25. ___ was a fantastic movie we watched last night.", options: "A) This  B) That  C) These  D) Those", a: "That" },
-            { q: "26. Hello, ___ is Mark speaking. Is Sarah available? (On the phone)", options: "A) this  B) that  C) these  D) those", a: "this" },
-            { q: "27. Put down the heavy boxes. Let me carry ___.", options: "A) this  B) that  C) these  D) those", a: "these" },
-            { q: "28. Out of all the paintings across the room, I want to buy ___.", options: "A) this  B) that  C) these  D) those", a: "that" },
-            { q: "29. ___ are the rules you must follow while in the classroom.", options: "A) This  B) That  C) These  D) Those", a: "These" },
-            { q: "30. I don't like the red shirt, but I really like ___ over there.", options: "A) this  B) that  C) these  D) those", a: "that" },
+            // Section 3: Demonstrative Pronouns
+            { q: "21. ___ is the best meal I have ever eaten! (Holding the food)", options: ["This", "That", "These", "Those"], answer: 0 },
+            { q: "22. Look at the birds high up in the sky. ___ are bald eagles.", options: ["This", "That", "These", "Those"], answer: 3 },
+            { q: "23. Are ___ your shoes left by the front door? (Pointing far away)", options: ["this", "that", "these", "those"], answer: 3 },
+            { q: "24. I love the cookies on this plate. ___ are delicious!", options: ["This", "That", "These", "Those"], answer: 2 },
+            { q: "25. ___ was a fantastic movie we watched last night.", options: ["This", "That", "These", "Those"], answer: 1 },
+            { q: "26. Hello, ___ is Mark speaking. Is Sarah available? (On the phone)", options: ["this", "that", "these", "those"], answer: 0 },
+            { q: "27. Put down the heavy boxes. Let me carry ___.", options: ["this", "that", "these", "those"], answer: 2 },
+            { q: "28. Out of all the paintings across the room, I want to buy ___.", options: ["this", "that", "these", "those"], answer: 1 },
+            { q: "29. ___ are the rules you must follow while in the classroom.", options: ["This", "That", "These", "Those"], answer: 2 },
+            { q: "30. I don't like the red shirt, but I really like ___ over there.", options: ["this", "that", "these", "those"], answer: 1 },
 
-            // SECTION 4: INTERROGATIVE PRONOUNS
-            { section: "Section 4: Interrogative Pronouns", example: "Example Answer: Type the exact word (e.g., 'Who', 'What') into the blank and press Enter.", q: "31. ___ left the front door open?", options: "A) Who  B) Whom  C) Whose  D) Which", a: "Who" },
-            { q: "32. To ___ should I address this formal email?", options: "A) who  B) whom  C) whose  D) what", a: "whom" },
-            { q: "33. ___ are you doing this weekend?", options: "A) Who  B) Which  C) What  D) Whom", a: "What" },
-            { q: "34. ___ of these two laptops is the better option?", options: "A) Who  B) What  C) Which  D) Whom", a: "Which" },
-            { q: "35. ___ backpack is this sitting on my desk?", options: "A) Who  B) Whom  C) Whose  D) What", a: "Whose" },
-            { q: "36. With ___ are you going to the school dance?", options: "A) who  B) whom  C) whose  D) which", a: "whom" },
-            { q: "37. ___ is the capital city of Australia?", options: "A) Who  B) What  C) Which  D) Whom", a: "What" },
-            { q: "38. I have a red pen and a blue pen. ___ do you prefer?", options: "A) What  B) Who  C) Which  D) Whose", a: "Which" },
-            { q: "39. ___ did you invite to the dinner party?", options: "A) Which  B) Whom  C) Whose  D) What", a: "Whom" },
-            { q: "40. ___ is the name of your new pet dog?", options: "A) Who  B) Which  C) What  D) Whom", a: "What" },
+            // Section 4: Interrogative Pronouns
+            { q: "31. ___ left the front door open?", options: ["Who", "Whom", "Whose", "Which"], answer: 0 },
+            { q: "32. To ___ should I address this formal email?", options: ["who", "whom", "whose", "what"], answer: 1 },
+            { q: "33. ___ are you doing this weekend?", options: ["Who", "Which", "What", "Whom"], answer: 2 },
+            { q: "34. ___ of these two laptops is the better option?", options: ["Who", "What", "Which", "Whom"], answer: 2 },
+            { q: "35. ___ backpack is this sitting on my desk?", options: ["Who", "Whom", "Whose", "What"], answer: 2 },
+            { q: "36. With ___ are you going to the school dance?", options: ["who", "whom", "whose", "which"], answer: 1 },
+            { q: "37. ___ is the capital city of Australia?", options: ["Who", "What", "Which", "Whom"], answer: 1 },
+            { q: "38. I have a red pen and a blue pen. ___ do you prefer?", options: ["What", "Who", "Which", "Whose"], answer: 2 },
+            { q: "39. ___ did you invite to the dinner party?", options: ["Which", "Whom", "Whose", "What"], answer: 1 },
+            { q: "40. ___ is the name of your new pet dog?", options: ["Who", "Which", "What", "Whom"], answer: 2 },
 
-            // SECTION 5: RELATIVE PRONOUNS
-            { section: "Section 5: Relative Pronouns", example: "Example Answer: Type the exact word (e.g., 'who', 'which', 'that') into the blank and press Enter.", q: "41. The woman ___ lives next door is a famous scientist.", options: "A) which  B) who  C) whom  D) whose", a: "who" },
-            { q: "42. The book ___ I borrowed from the library is very interesting.", options: "A) who  B) whom  C) whose  D) which", a: "which" },
-            { q: "43. The student ___ project won first prize was very happy.", options: "A) who  B) whom  C) whose  D) that", a: "whose" },
-            { q: "44. Is this the exact car ___ you want to buy?", options: "A) who  B) whom  C) that  D) whose", a: "that" },
-            { q: "45. The musician, ___ I admire greatly, is coming to our city.", options: "A) who  B) whom  C) whose  D) which", a: "whom" },
-            { q: "46. The dog ___ is barking loudly belongs to my neighbor.", options: "A) who  B) whom  C) whose  D) that", a: "that" },
-            { q: "47. He is the only person ___ can solve this difficult puzzle.", options: "A) who  B) which  C) whom  D) whose", a: "who" },
-            { q: "48. We visited the museum ___ was built hundreds of years ago.", options: "A) which  B) who  C) whom  D) whose", a: "which" },
-            { q: "49. I met a girl ___ mother works as an astronaut.", options: "A) who  B) whom  C) whose  D) which", a: "whose" },
-            { q: "50. The team members to ___ the manager spoke were very professional.", options: "A) who  B) whom  C) whose  D) that", a: "whom" }
+            // Section 5: Relative Pronouns
+            { q: "41. The woman ___ lives next door is a famous scientist.", options: ["which", "who", "whom", "whose"], answer: 1 },
+            { q: "42. The book ___ I borrowed from the library is very interesting.", options: ["who", "whom", "whose", "which"], answer: 3 },
+            { q: "43. The student ___ project won first prize was very happy.", options: ["who", "whom", "whose", "that"], answer: 2 },
+            { q: "44. Is this the exact car ___ you want to buy?", options: ["who", "whom", "that", "whose"], answer: 2 },
+            { q: "45. The musician, ___ I admire greatly, is coming to our city.", options: ["who", "whom", "whose", "which"], answer: 1 },
+            { q: "46. The dog ___ is barking loudly belongs to my neighbor.", options: ["who", "whom", "whose", "that"], answer: 3 },
+            { q: "47. He is the only person ___ can solve this difficult puzzle.", options: ["who", "which", "whom", "whose"], answer: 0 },
+            { q: "48. We visited the museum ___ was built hundreds of years ago.", options: ["which", "who", "whom", "whose"], answer: 0 },
+            { q: "49. I met a girl ___ mother works as an astronaut.", options: ["who", "whom", "whose", "which"], answer: 2 },
+            { q: "50. The team members to ___ the manager spoke were very professional.", options: ["who", "whom", "whose", "that"], answer: 1 }
         ];
 
-        let score = 0;
-        let incorrectLog = [];
-        let currentSection = "";
-        const container = document.getElementById('quiz-container');
+        const quizContainer = document.getElementById('quiz-container');
 
-        // Render the Quiz
-        quizData.forEach((item, index) => {
-            if (item.section) {
-                currentSection = item.section;
-                const secTitle = document.createElement('h2');
-                secTitle.className = 'section-title';
-                secTitle.innerText = item.section;
-                container.appendChild(secTitle);
-                
-                const instruction = document.createElement('div');
-                instruction.className = 'example-instruction';
-                instruction.innerText = item.example;
-                container.appendChild(instruction);
-            }
-
-            const qBlock = document.createElement('div');
-            qBlock.className = 'question-block';
-            qBlock.innerHTML = `
-                <div class="question-text">${item.q}</div>
-                <div class="options-text">${item.options}</div>
-                <input type="text" id="q${index}" placeholder="Type the exact word here and press Enter..." data-index="${index}" data-section="${currentSection}">
-            `;
-            container.appendChild(qBlock);
-        });
-
-        // Event Listener for "Enter" Key
-        document.querySelectorAll('input[type="text"]').forEach(input => {
-            input.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    const idx = this.getAttribute('data-index');
-                    checkAnswer(this, quizData[idx]);
-                    
-                    // Auto-focus next question
-                    const nextInput = document.getElementById(`q${parseInt(idx) + 1}`);
-                    if (nextInput) {
-                        // Small timeout helps mobile browsers move down smoothly
-                        setTimeout(() => nextInput.focus(), 50); 
-                    }
-                }
+        // Render Quiz Forms
+        questions.forEach((q, index) => {
+            let optionsHTML = '';
+            q.options.forEach((opt, i) => {
+                optionsHTML += `
+                    <label class="option-label">
+                        <input type="radio" name="q${index}" value="${i}"> 
+                        ${opt}
+                    </label>
+                `;
             });
+
+            quizContainer.innerHTML += `
+                <div class="quiz-card">
+                    <div class="question">${q.q}</div>
+                    <div class="options">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
         });
 
-        // Validation Logic
-        function checkAnswer(inputElement, data) {
-            if (inputElement.disabled) return; 
+        // Generate Report
+        function submitQuiz() {
+            document.getElementById('quiz-view').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            window.scrollTo(0, 0);
 
-            let studentAnswer = inputElement.value.trim().toLowerCase();
-            let correctAnswer = data.a.toLowerCase();
+            let score = 0;
+            const reportContainer = document.getElementById('report-container');
+            reportContainer.innerHTML = '';
 
-            if (studentAnswer === correctAnswer) {
-                inputElement.className = 'correct';
-                score++;
-            } else {
-                inputElement.className = 'incorrect';
+            questions.forEach((q, index) => {
+                const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+                const reportCard = document.createElement('div');
+                reportCard.className = 'report-card';
                 
-                // Save to error report log
-                incorrectLog.push({
-                    q: data.q,
-                    studentAns: inputElement.value.trim() || "(Left Blank)",
-                    correctAns: data.a,
-                    section: inputElement.getAttribute('data-section')
-                });
-            }
-            inputElement.disabled = true; 
-        }
+                // Question Header
+                let html = `<div class="question">${q.q}</div>`;
 
-        // Generate Grammar Rule Explanations
-        function getExplanation(sectionName) {
-            if(sectionName.includes('Personal')) return "Personal pronouns replace specific nouns to avoid repetition. They must match the subject/object of the sentence.";
-            if(sectionName.includes('Reflexive')) return "Reflexive pronouns (ending in -self or -selves) are used when the subject and the object of the verb are the same person/thing.";
-            if(sectionName.includes('Demonstrative')) return "Demonstrative pronouns (this, that, these, those) point to specific things based on whether they are near/far or singular/plural.";
-            if(sectionName.includes('Interrogative')) return "Interrogative pronouns (who, whom, whose, which, what) are used specifically to ask questions. 'Who' acts as a subject, 'Whom' acts as an object.";
-            if(sectionName.includes('Relative')) return "Relative pronouns (who, whom, whose, which, that) introduce relative clauses to connect them to the main noun.";
-            return "Review standard pronoun rules for this section.";
-        }
+                if (selectedOption) {
+                    const selectedValue = parseInt(selectedOption.value);
+                    if (selectedValue === q.answer) {
+                        score++;
+                        // Highlight Entire Field Dark Green
+                        html += `<div class="correct-fill">✓ Your Answer: ${q.options[selectedValue]} (Correct)</div>`;
+                    } else {
+                        // Highlight Entire Field Dark Red
+                        html += `<div class="wrong-fill">✗ Your Answer: ${q.options[selectedValue]} (Incorrect)</div>`;
+                        html += `<div class="correct-answer-note">The correct answer is: <strong>${q.options[q.answer]}</strong></div>`;
+                    }
+                } else {
+                    html += `<div class="wrong-fill">✗ You left this blank.</div>`;
+                    html += `<div class="correct-answer-note">The correct answer is: <strong>${q.options[q.answer]}</strong></div>`;
+                }
 
-        // Finalize Test and Generate PDF Report
-        function finishTest() {
-            document.getElementById('score-display').style.display = 'block';
-            document.getElementById('final-score').innerText = score;
-            
-            const reportDiv = document.getElementById('error-report');
-            
-            if (incorrectLog.length > 0) {
-                let html = `<h2>Correction Report</h2><p>Please review the rules below for the answers you got wrong.</p>`;
-                
-                incorrectLog.forEach((err, idx) => {
-                    html += `
-                    <div class="error-item">
-                        <p class="question-text">${err.q}</p>
-                        <p>
-                            <span class="wrong-ans">Your Answer: ${err.studentAns}</span> &nbsp;|&nbsp; 
-                            <span class="right-ans">Correct Answer: ${err.correctAns}</span>
-                        </p>
-                        <p class="reason-text"><strong>Why is it wrong?</strong> ${getExplanation(err.section)}</p>
-                    </div>`;
-                });
-                reportDiv.innerHTML = html;
-            } else {
-                reportDiv.innerHTML = `<h2 style="color:var(--correct-dark)">Perfect Score! Outstanding Job.</h2>`;
-            }
-            
-            reportDiv.style.display = 'block';
-            
-            // Allow DOM to update before printing
-            setTimeout(() => {
-                window.print();
-            }, 500);
+                reportCard.innerHTML = html;
+                reportContainer.appendChild(reportCard);
+            });
+
+            const scoreHeader = document.getElementById('score-container');
+            let percentage = (score / questions.length) * 100;
+            scoreHeader.innerHTML = `You scored ${score} out of ${questions.length} (${percentage}%)`;
         }
     </script>
 </body>
