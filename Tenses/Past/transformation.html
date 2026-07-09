@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Past Tense Transformations - SJC Tech</title>
+    <style>
+        :root { --primary: #1f3a93; --secondary: #34495e; --correct-dark: #006400; --incorrect-dark: #8B0000; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f7; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 2px solid var(--primary); }
+        .header h1 { color: var(--primary); margin-bottom: 5px; }
+        .header h3 { color: var(--secondary); margin-top: 0; font-weight: normal; }
+        .section-title { background-color: var(--primary); color: white; padding: 12px 15px; border-radius: 5px; margin-top: 40px; margin-bottom: 20px; }
+        .question-block { background: white; padding: 20px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .given-text { font-weight: bold; font-size: 16px; margin-bottom: 15px; color: var(--primary); background: #e8f0fe; padding: 10px; border-radius: 5px;}
+        .fix-text { color: var(--incorrect-dark); background: #fce8e6; }
+        .input-group { margin-bottom: 10px; display: flex; flex-direction: column; }
+        .input-label { font-size: 14px; font-weight: bold; margin-bottom: 5px; color: #555; }
+        input[type="text"] { padding: 12px; border: 2px solid #ccc; border-radius: 5px; font-size: 15px; font-weight: bold; width: 100%; box-sizing: border-box; transition: 0.3s; }
+        input.correct { background-color: var(--correct-dark) !important; border-color: #004d00 !important; color: white !important; }
+        input.incorrect { background-color: var(--incorrect-dark) !important; border-color: #660000 !important; color: white !important; }
+        .controls { text-align: center; margin: 40px 0; }
+        button { background-color: #27ae60; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        button:hover { background-color: #219150; }
+        #score-display { font-size: 24px; font-weight: bold; text-align: center; margin-top: 30px; padding: 20px; background: #e8f8f5; border-radius: 8px; display: none; }
+        #error-report { display: none; margin-top: 40px; background: white; padding: 20px; border-radius: 8px; border-top: 5px solid var(--incorrect-dark); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .error-item { border-bottom: 2px solid #eee; padding: 15px 0; }
+        .wrong-ans { background-color: var(--incorrect-dark); color: white; font-weight: bold; padding: 10px; border-radius: 5px; margin-bottom: 5px; display: block; }
+        .right-ans { background-color: var(--correct-dark); color: white; font-weight: bold; padding: 10px; border-radius: 5px; display: block; }
+        @media print { body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; } .controls { display: none; } .question-block { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; } #error-report { display: block !important; page-break-before: always; box-shadow: none; border: 1px solid #ccc; } .error-item { page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sentence Transformations: Past Tense</h1>
+        <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
+        <p>Type the correct sentence structure in each blank and press <strong>Enter</strong>.</p>
+    </div>
+    <div id="quiz-container"></div>
+    <div class="controls"><button onclick="finishTest()">Finish Test & Generate PDF Report</button></div>
+    <div id="score-display">Final Score: <span id="final-score">0</span> / <span id="total-blanks">0</span> blanks</div>
+    <div id="error-report"></div>
+
+    <script>
+        const quizData = [
+            // --- PAST SIMPLE (10 Questions) ---
+            { section: "Past Simple", type: "transform", given: "Affirmative: She spoke English.", reqs: [ { label: "Negative", ans: "She did not speak English." }, { label: "Interrogative", ans: "Did she speak English?" } ] },
+            { type: "transform", given: "Negative: He did not walk to school.", reqs: [ { label: "Affirmative", ans: "He walked to school." }, { label: "Interrogative", ans: "Did he walk to school?" } ] },
+            { type: "transform", given: "Interrogative: Did they play cricket?", reqs: [ { label: "Affirmative", ans: "They played cricket." }, { label: "Negative", ans: "They did not play cricket." } ] },
+            { type: "transform", given: "Affirmative: The sun rose early.", reqs: [ { label: "Negative", ans: "The sun did not rise early." }, { label: "Interrogative", ans: "Did the sun rise early?" } ] },
+            { type: "transform", given: "Negative: We did not eat meat.", reqs: [ { label: "Affirmative", ans: "We ate meat." }, { label: "Interrogative", ans: "Did we eat meat?" } ] },
+            { type: "fix", given: "Fix the Errors: I goed to the market.", reqs: [ { label: "Affirmative", ans: "I went to the market." }, { label: "Negative", ans: "I did not go to the market." }, { label: "Interrogative", ans: "Did I go to the market?" } ] },
+            { type: "fix", given: "Fix the Errors: Did he liked apples?", reqs: [ { label: "Affirmative", ans: "He liked apples." }, { label: "Negative", ans: "He did not like apples." }, { label: "Interrogative", ans: "Did he like apples?" } ] },
+            { type: "fix", given: "Fix the Errors: They was play chess.", reqs: [ { label: "Affirmative", ans: "They played chess." }, { label: "Negative", ans: "They did not play chess." }, { label: "Interrogative", ans: "Did they play chess?" } ] },
+            { type: "fix", given: "Fix the Errors: She did not slept early.", reqs: [ { label: "Affirmative", ans: "She slept early." }, { label: "Negative", ans: "She did not sleep early." }, { label: "Interrogative", ans: "Did she sleep early?" } ] },
+            { type: "fix", given: "Fix the Errors: He flyed to London yesterday.", reqs: [ { label: "Affirmative", ans: "He flew to London yesterday." }, { label: "Negative", ans: "He did not fly to London yesterday." }, { label: "Interrogative", ans: "Did he fly to London yesterday?" } ] },
+
+            // --- PAST CONTINUOUS (10 Questions) ---
+            { section: "Past Continuous", type: "transform", given: "Affirmative: I was writing a letter.", reqs: [ { label: "Negative", ans: "I was not writing a letter." }, { label: "Interrogative", ans: "Was I writing a letter?" } ] },
+            { type: "transform", given: "Negative: She was not crying.", reqs: [ { label: "Affirmative", ans: "She was crying." }, { label: "Interrogative", ans: "Was she crying?" } ] },
+            { type: "transform", given: "Interrogative: Were they running fast?", reqs: [ { label: "Affirmative", ans: "They were running fast." }, { label: "Negative", ans: "They were not running fast." } ] },
+            { type: "transform", given: "Affirmative: The dog was barking loudly.", reqs: [ { label: "Negative", ans: "The dog was not barking loudly." }, { label: "Interrogative", ans: "Was the dog barking loudly?" } ] },
+            { type: "transform", given: "Negative: We were not listening to music.", reqs: [ { label: "Affirmative", ans: "We were listening to music." }, { label: "Interrogative", ans: "Were we listening to music?" } ] },
+            { type: "fix", given: "Fix the Errors: He were swimming in the pool.", reqs: [ { label: "Affirmative", ans: "He was swimming in the pool." }, { label: "Negative", ans: "He was not swimming in the pool." }, { label: "Interrogative", ans: "Was he swimming in the pool?" } ] },
+            { type: "fix", given: "Fix the Errors: Was she dance on the stage?", reqs: [ { label: "Affirmative", ans: "She was dancing on the stage." }, { label: "Negative", ans: "She was not dancing on the stage." }, { label: "Interrogative", ans: "Was she dancing on the stage?" } ] },
+            { type: "fix", given: "Fix the Errors: I were not joking.", reqs: [ { label: "Affirmative", ans: "I was joking." }, { label: "Negative", ans: "I was not joking." }, { label: "Interrogative", ans: "Was I joking?" } ] },
+            { type: "fix", given: "Fix the Errors: They was cook dinner.", reqs: [ { label: "Affirmative", ans: "They were cooking dinner." }, { label: "Negative", ans: "They were not cooking dinner." }, { label: "Interrogative", ans: "Were they cooking dinner?" } ] },
+            { type: "fix", given: "Fix the Errors: The bird was fly in the sky.", reqs: [ { label: "Affirmative", ans: "The bird was flying in the sky." }, { label: "Negative", ans: "The bird was not flying in the sky." }, { label: "Interrogative", ans: "Was the bird flying in the sky?" } ] },
+
+            // --- PAST PERFECT (10 Questions) ---
+            { section: "Past Perfect", type: "transform", given: "Affirmative: They had bought a new car.", reqs: [ { label: "Negative", ans: "They had not bought a new car." }, { label: "Interrogative", ans: "Had they bought a new car?" } ] },
+            { type: "transform", given: "Negative: I had not seen that movie.", reqs: [ { label: "Affirmative", ans: "I had seen that movie." }, { label: "Interrogative", ans: "Had I seen that movie?" } ] },
+            { type: "transform", given: "Interrogative: Had she finished her work?", reqs: [ { label: "Affirmative", ans: "She had finished her work." }, { label: "Negative", ans: "She had not finished her work." } ] },
+            { type: "transform", given: "Affirmative: We had eaten breakfast.", reqs: [ { label: "Negative", ans: "We had not eaten breakfast." }, { label: "Interrogative", ans: "Had we eaten breakfast?" } ] },
+            { type: "transform", given: "Negative: He had not called me.", reqs: [ { label: "Affirmative", ans: "He had called me." }, { label: "Interrogative", ans: "Had he called me?" } ] },
+            { type: "fix", given: "Fix the Errors: I has forgotten my password.", reqs: [ { label: "Affirmative", ans: "I had forgotten my password." }, { label: "Negative", ans: "I had not forgotten my password." }, { label: "Interrogative", ans: "Had I forgotten my password?" } ] },
+            { type: "fix", given: "Fix the Errors: Had he break the glass?", reqs: [ { label: "Affirmative", ans: "He had broken the glass." }, { label: "Negative", ans: "He had not broken the glass." }, { label: "Interrogative", ans: "Had he broken the glass?" } ] },
+            { type: "fix", given: "Fix the Errors: She have write a poem.", reqs: [ { label: "Affirmative", ans: "She had written a poem." }, { label: "Negative", ans: "She had not written a poem." }, { label: "Interrogative", ans: "Had she written a poem?" } ] },
+            { type: "fix", given: "Fix the Errors: They had not arrive yet.", reqs: [ { label: "Affirmative", ans: "They had arrived yet." }, { label: "Negative", ans: "They had not arrived yet." }, { label: "Interrogative", ans: "Had they arrived yet?" } ] },
+            { type: "fix", given: "Fix the Errors: We had drank all the water.", reqs: [ { label: "Affirmative", ans: "We had drunk all the water." }, { label: "Negative", ans: "We had not drunk all the water." }, { label: "Interrogative", ans: "Had we drunk all the water?" } ] },
+
+            // --- PAST PERFECT CONTINUOUS (10 Questions) ---
+            { section: "Past Perfect Continuous", type: "transform", given: "Affirmative: She had been working since morning.", reqs: [ { label: "Negative", ans: "She had not been working since morning." }, { label: "Interrogative", ans: "Had she been working since morning?" } ] },
+            { type: "transform", given: "Negative: They had not been playing for an hour.", reqs: [ { label: "Affirmative", ans: "They had been playing for an hour." }, { label: "Interrogative", ans: "Had they been playing for an hour?" } ] },
+            { type: "transform", given: "Interrogative: Had you been waiting long?", reqs: [ { label: "Affirmative", ans: "You had been waiting long." }, { label: "Negative", ans: "You had not been waiting long." } ] },
+            { type: "transform", given: "Affirmative: He had been studying all night.", reqs: [ { label: "Negative", ans: "He had not been studying all night." }, { label: "Interrogative", ans: "Had he been studying all night?" } ] },
+            { type: "transform", given: "Negative: It had not been raining today.", reqs: [ { label: "Affirmative", ans: "It had been raining today." }, { label: "Interrogative", ans: "Had it been raining today?" } ] },
+            { type: "fix", given: "Fix the Errors: I has been reading this book.", reqs: [ { label: "Affirmative", ans: "I had been reading this book." }, { label: "Negative", ans: "I had not been reading this book." }, { label: "Interrogative", ans: "Had I been reading this book?" } ] },
+            { type: "fix", given: "Fix the Errors: Had she been sleep?", reqs: [ { label: "Affirmative", ans: "She had been sleeping." }, { label: "Negative", ans: "She had not been sleeping." }, { label: "Interrogative", ans: "Had she been sleeping?" } ] },
+            { type: "fix", given: "Fix the Errors: They had be running.", reqs: [ { label: "Affirmative", ans: "They had been running." }, { label: "Negative", ans: "They had not been running." }, { label: "Interrogative", ans: "Had they been running?" } ] },
+            { type: "fix", given: "Fix the Errors: We had not been talk.", reqs: [ { label: "Affirmative", ans: "We had been talking." }, { label: "Negative", ans: "We had not been talking." }, { label: "Interrogative", ans: "Had we been talking?" } ] },
+            { type: "fix", given: "Fix the Errors: He have been watch TV.", reqs: [ { label: "Affirmative", ans: "He had been watching TV." }, { label: "Negative", ans: "He had not been watching TV." }, { label: "Interrogative", ans: "Had he been watching TV?" } ] }
+        ];
+
+        let score = 0; let totalBlanks = 0; let incorrectLog = []; const container = document.getElementById('quiz-container');
+        quizData.forEach((item, qIndex) => { if (item.section) { const secTitle = document.createElement('h2'); secTitle.className = 'section-title'; secTitle.innerText = item.section; container.appendChild(secTitle); } const qBlock = document.createElement('div'); qBlock.className = 'question-block'; const textClass = item.type === "fix" ? "given-text fix-text" : "given-text"; let html = `<div class="${textClass}">${item.given}</div>`; item.reqs.forEach((req, reqIndex) => { totalBlanks++; html += `<div class="input-group"><div class="input-label">Make it ${req.label}:</div><input type="text" id="q${qIndex}_r${reqIndex}" placeholder="Type here and press Enter..." data-ans="${req.ans}" data-q="${item.given}" data-label="${req.label}"></div>`; }); qBlock.innerHTML = html; container.appendChild(qBlock); }); document.getElementById('total-blanks').innerText = totalBlanks;
+        document.querySelectorAll('input[type="text"]').forEach(input => { input.addEventListener('keypress', function(e) { if (e.key === 'Enter') { if (this.disabled) return; let studentAns = this.value.trim().toLowerCase().replace(/[.?!]/g, ''); let correctAns = this.getAttribute('data-ans').toLowerCase().replace(/[.?!]/g, ''); if (studentAns === correctAns) { this.className = 'correct'; score++; } else { this.className = 'incorrect'; incorrectLog.push({ q: this.getAttribute('data-q'), label: this.getAttribute('data-label'), student: this.value.trim() || "(Blank)", correct: this.getAttribute('data-ans') }); } this.disabled = true; const inputs = Array.from(document.querySelectorAll('input[type="text"]')); const currentIndex = inputs.indexOf(this); if (currentIndex > -1 && currentIndex < inputs.length - 1) { inputs[currentIndex + 1].focus(); } } }); });
+        function finishTest() { document.querySelectorAll('input[type="text"]').forEach(input => { if (!input.disabled) { input.className = 'incorrect'; input.disabled = true; incorrectLog.push({ q: input.getAttribute('data-q'), label: input.getAttribute('data-label'), student: "(Left Blank)", correct: input.getAttribute('data-ans') }); } }); document.getElementById('score-display').style.display = 'block'; document.getElementById('final-score').innerText = score; const reportDiv = document.getElementById('error-report'); if (incorrectLog.length > 0) { let html = `<h2>Correction Report</h2>`; incorrectLog.forEach(err => { html += `<div class="error-item"><p><strong>Question:</strong> ${err.q} <br> <em>(Target: ${err.label})</em></p><div class="wrong-ans">❌ Your Answer: ${err.student}</div><div class="right-ans">✅ Correct Answer: ${err.correct}</div></div>`; }); reportDiv.innerHTML = html; } else { reportDiv.innerHTML = `<h2 style="color:var(--correct-dark)">Perfect Score!</h2>`; } reportDiv.style.display = 'block'; setTimeout(() => { window.print(); }, 500); }
+    </script>
+</body>
+</html>
