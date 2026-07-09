@@ -1,11 +1,113 @@
-<div class="menu">
-        <a href="nouns_test/" class="button">📝 Nouns & Punctuation Test</a>
-        <a href="pronouns_test/" class="button">📝 Pronouns Test</a>
-        <a href="pronouns_retest/" class="button">📝 Pronouns Test (Retest)</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SJC Tech Solutions - Online Testing Portal</title>
+    <style>
+        :root {
+            --primary: #1f3a93;
+            --secondary: #34495e;
+            --button-bg: #27ae60;
+            --button-hover: #219150;
+            --bg-color: #f4f6f7;
+            --card-bg: #ffffff;
+        }
         
-        <!-- NEW TENSES SECTION -->
-        <h3 style="margin-top: 30px;">Tense Transformations</h3>
-        <a href="Tenses/Present/transformations.html" class="button">⏳ Present Transformations</a>
-        <a href="Tenses/Past/transformations.html" class="button">⏳ Past Transformations</a>
-        <a href="Tenses/Future/transformations.html" class="button">⏳ Future Transformations</a>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--bg-color); 
+            color: #333; 
+            text-align: center; 
+            padding: 40px 20px; 
+            margin: 0;
+        }
+        
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        h1 { 
+            color: var(--primary); 
+            margin-bottom: 5px; 
+            font-size: 32px;
+        }
+        
+        p.subtitle { 
+            color: var(--secondary); 
+            font-size: 18px;
+            margin-top: 0; 
+        }
+        
+        .menu-section {
+            background-color: var(--card-bg);
+            max-width: 500px;
+            margin: 0 auto 30px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        h2 {
+            color: var(--secondary);
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 12px;
+            text-align: left;
+        }
+        
+        .menu { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        a.button { 
+            background-color: var(--button-bg); 
+            color: white; 
+            padding: 15px 20px; 
+            text-decoration: none; 
+            font-size: 16px; 
+            font-weight: bold; 
+            border-radius: 6px; 
+            transition: background-color 0.2s ease-in-out;
+            display: block;
+        }
+        
+        a.button:hover { 
+            background-color: var(--button-hover); 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>SJC Tech Solutions</h1>
+        <p class="subtitle">Grammar Online Testing Portal</p>
     </div>
+
+    <!-- Section 1: Core Grammar Tests -->
+    <div class="menu-section">
+        <h2>Grammar Basics</h2>
+        <div class="menu">
+            <a href="nouns_test/" class="button">Nouns and Punctuation Test</a>
+            <a href="pronouns_test/" class="button">Pronouns Test</a>
+            <a href="pronouns_retest/" class="button">Pronouns Test (Retest)</a>
+        </div>
+    </div>
+
+    <!-- Section 2: Tense Transformations -->
+    <div class="menu-section">
+        <h2>Sentence Transformations</h2>
+        <div class="menu">
+            <a href="Tenses/Present/transformation.html" class="button">Present Tense Transformations</a>
+            <a href="Tenses/Past/transformation.html" class="button">Past Tense Transformations</a>
+            <a href="Tenses/Future/transformation.html" class="button">Future Tense Transformations</a>
+        </div>
+    </div>
+
+</body>
+</html>
+
