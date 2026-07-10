@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adjectives Grammar Test - SJC Tech</title>
+    <style>
+        :root {
+            --primary: #1f3a93;
+            --secondary: #34495e;
+            --correct-dark: #006400; 
+            --incorrect-dark: #8B0000; 
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f7;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .header h1 { color: var(--primary); margin-bottom: 5px; }
+        .header h3 { color: var(--secondary); margin-top: 0; font-weight: normal; }
+        
+        .section-title {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-top: 40px;
+            margin-bottom: 0px;
+        }
+        .example-instruction {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px 15px;
+            border-left: 5px solid #ffeeba;
+            border-radius: 0 0 5px 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-style: italic;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .question-text { 
+            font-weight: bold; 
+            font-size: 16px; 
+            margin-bottom: 15px;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #f0f2f5;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 15px;
+        }
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .option-label:hover {
+            background-color: #e2e6ea;
+        }
+        
+        .option-label.correct {
+            background-color: var(--correct-dark) !important;
+            color: white;
+            font-weight: bold;
+        }
+        .option-label.incorrect {
+            background-color: var(--incorrect-dark) !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .question-card.locked {
+            pointer-events: none;
+        }
+
+        .controls { text-align: center; margin: 40px 0; }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #219150; }
+        
+        #score-display {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f8f5;
+            border-radius: 8px;
+            display: none;
+        }
+
+        #error-report {
+            display: none;
+            margin-top: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 5px solid var(--incorrect-dark);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #error-report h2 { color: var(--incorrect-dark); margin-top: 0; }
+        .error-item {
+            border-bottom: 2px solid #eee;
+            padding: 20px 0;
+        }
+        .error-item:last-child { border-bottom: none; }
+        
+        .wrong-ans { 
+            background-color: var(--incorrect-dark); 
+            color: white; 
+            font-weight: bold; 
+            padding: 12px; 
+            border-radius: 5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .right-ans { 
+            background-color: var(--correct-dark); 
+            color: white; 
+            font-weight: bold; 
+            padding: 12px; 
+            border-radius: 5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .reason-text { font-style: italic; color: #333; background: #f0f0f0; padding: 12px; border-radius: 5px; margin-top: 10px; border-left: 4px solid var(--primary); }
+
+        @media print {
+            body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .controls { display: none; }
+            .question-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+            #error-report { display: block !important; page-break-before: always; box-shadow: none; border: 1px solid #ccc; }
+            .error-item { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Adjectives Grammar Test</h1>
+        <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
+        <p>Total Questions: 20 | Topics: Kinds, Formation, Degrees of Comparison</p>
+    </div>
+
+    <div id="quiz-container"></div>
+    
+    <div class="controls">
+        <button onclick="finishTest()">Finish & Generate Report (PDF)</button>
+    </div>
+
+    <div id="score-display">Final Score: <span id="final-score">0</span> / 20</div>
+    <div id="error-report"></div>
+
+    <script>
+        const quizData = [
+            // SECTION 1: KINDS OF ADJECTIVES (8 Questions)
+            { section: "Section 1: Kinds of Adjectives", example: "Instruction: Identify if the bold word is an Adjective of Quality, Quantity, or Number.", q: "1. The <strong>hungry</strong> cat drank the milk.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quality" },
+            { q: "2. I have <strong>three</strong> pens in my bag.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Number" },
+            { q: "3. There is <strong>some</strong> water in the glass.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quantity" },
+            { q: "4. He is a <strong>brave</strong> boy.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quality" },
+            { q: "5. She ate the <strong>whole</strong> apple.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quantity" },
+            { q: "6. They bought <strong>six</strong> cars for the company.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Number" },
+            { q: "7. The <strong>tall</strong> building touches the sky.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quality" },
+            { q: "8. He has <strong>enough</strong> money to buy the book.", options: ["Adjective of Quality", "Adjective of Quantity", "Adjective of Number"], a: "Adjective of Quantity" },
+
+            // SECTION 2: FORMATION OF ADJECTIVES (6 Questions)
+            { section: "Section 2: Formation of Adjectives", example: "Instruction: Choose the correct adjective form of the given noun or verb.", q: "9. What is the adjective form of the noun 'danger'?", options: ["Dangerly", "Dangerous", "Dangered", "Dangering"], a: "Dangerous" },
+            { q: "10. What is the adjective form of the noun 'child'?", options: ["Childish", "Childly", "Childness", "Children"], a: "Childish" },
+            { q: "11. What is the adjective form of the noun 'beauty'?", options: ["Beautify", "Beautiful", "Beautiness", "Beautifully"], a: "Beautiful" },
+            { q: "12. What is the adjective form of the verb 'help'?", options: ["Helper", "Helping", "Helpful", "Helped"], a: "Helpful" },
+            { q: "13. What is the adjective form of the noun 'sun'?", options: ["Sunned", "Sunny", "Sunner", "Sunning"], a: "Sunny" },
+            { q: "14. What is the adjective form of the noun 'gold'?", options: ["Golds", "Golder", "Golding", "Golden"], a: "Golden" },
+
+            // SECTION 3: DEGREES OF COMPARISON (6 Questions)
+            { section: "Section 3: Degrees of Comparison", example: "Instruction: Choose the correct degree (Positive, Comparative, or Superlative) to complete the sentence.", q: "15. My house is ________ than yours. (big)", options: ["big", "bigger", "biggest", "more big"], a: "bigger" },
+            { q: "16. She is the ________ girl in the class. (smart)", options: ["smart", "smarter", "smartest", "most smart"], a: "smartest" },
+            { q: "17. This book is ________ than the other one. (interesting)", options: ["interesting", "interestinger", "more interesting", "most interesting"], a: "more interesting" },
+            { q: "18. He is as ________ as a lion. (brave)", options: ["brave", "braver", "bravest", "more brave"], a: "brave" },
+            { q: "19. Today is the ________ day of the week. (hot)", options: ["hot", "hotter", "hottest", "most hot"], a: "hottest" },
+            { q: "20. This is the ________ movie I have ever seen. (bad)", options: ["bad", "badder", "worse", "worst"], a: "worst" }
+        ];
+
+        let score = 0;
+        let incorrectLog = [];
+        let currentSection = "";
+        const container = document.getElementById('quiz-container');
+        const answeredQuestions = new Set();
+
+        // Render the Quiz
+        quizData.forEach((item, qIndex) => {
+            if (item.section) {
+                currentSection = item.section;
+                const secTitle = document.createElement('h2');
+                secTitle.className = 'section-title';
+                secTitle.innerText = item.section;
+                container.appendChild(secTitle);
+                
+                const instruction = document.createElement('div');
+                instruction.className = 'example-instruction';
+                instruction.innerText = item.example;
+                container.appendChild(instruction);
+            }
+
+            const qCard = document.createElement('div');
+            qCard.className = 'question-card';
+            qCard.id = `card-${qIndex}`;
+            
+            let html = `<div class="question-text">${item.q}</div>`;
+            
+            item.options.forEach((opt, optIndex) => {
+                html += `
+                    <label class="option-label" id="label-${qIndex}-${optIndex}">
+                        <input type="radio" name="q${qIndex}" value="${opt}" onchange="checkAnswer(${qIndex}, '${opt}', '${item.a}', this, '${currentSection}')">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            qCard.innerHTML = html;
+            container.appendChild(qCard);
+        });
+
+        // Validation Logic
+        function checkAnswer(qIndex, selectedAns, correctAns, radioInput, section) {
+            const card = document.getElementById(`card-${qIndex}`);
+            
+            if (card.classList.contains('locked')) return;
+
+            answeredQuestions.add(qIndex);
+
+            const label = radioInput.parentElement;
+
+            if (selectedAns === correctAns) {
+                label.classList.add('correct');
+                score++;
+            } else {
+                label.classList.add('incorrect');
+                
+                incorrectLog.push({
+                    q: quizData[qIndex].q,
+                    studentAns: selectedAns,
+                    correctAns: correctAns,
+                    section: section
+                });
+            }
+
+            card.classList.add('locked');
+            
+            const nextCard = document.getElementById(`card-${qIndex + 1}`);
+            if (nextCard) {
+                setTimeout(() => {
+                    nextCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 400);
+            }
+        }
+
+        // Grammar Explanations for Report
+        function getExplanation(sectionName) {
+            if(sectionName.includes('Kinds')) return "Adjectives of Quality describe 'what kind' (e.g., brave, tall). Adjectives of Quantity describe 'how much' for uncountable things (e.g., some, enough). Adjectives of Number describe 'how many' for countable things (e.g., three, six).";
+            if(sectionName.includes('Formation')) return "Adjectives can be formed by adding suffixes to nouns or verbs. Common suffixes include -ous (dangerous), -ish (childish), -ful (helpful), and -y (sunny).";
+            if(sectionName.includes('Degrees')) return "Use the Positive degree (brave) for no comparison. Use the Comparative degree (bigger, more interesting) when comparing TWO things. Use the Superlative degree (smartest, worst) when comparing THREE OR MORE things.";
+            return "Review standard adjective rules.";
+        }
+
+        // Finalize Test
+        function finishTest() {
+            quizData.forEach((item, index) => {
+                if (!answeredQuestions.has(index)) {
+                    document.getElementById(`card-${index}`).classList.add('locked');
+                    incorrectLog.push({
+                        q: item.q,
+                        studentAns: "(Left Blank)",
+                        correctAns: item.a,
+                        section: item.section || "General"
+                    });
+                }
+            });
+
+            document.getElementById('score-display').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            
+            const reportDiv = document.getElementById('error-report');
+            
+            if (incorrectLog.length > 0) {
+                let html = `<h2>Correction Report</h2><p>Please review the rules below for the answers you got wrong or missed.</p>`;
+                
+                incorrectLog.forEach((err) => {
+                    html += `
+                    <div class="error-item">
+                        <p class="question-text">${err.q}</p>
+                        <div class="wrong-ans">Your Answer: ${err.studentAns}</div>
+                        <div class="right-ans">Correct Answer: ${err.correctAns}</div>
+                        <p class="reason-text"><strong>Why is it wrong?</strong> ${getExplanation(err.section)}</p>
+                    </div>`;
+                });
+                reportDiv.innerHTML = html;
+            } else {
+                reportDiv.innerHTML = `<h2 style="color:var(--correct-dark)">Perfect Score! Outstanding Job.</h2>`;
+            }
+            
+            reportDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
