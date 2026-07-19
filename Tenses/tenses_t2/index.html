@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verbs with Prepositions Test - SJC Tech</title>
+    <title>Comprehensive Tenses Test - SJC Tech</title>
     <style>
         :root {
             --primary: #1f3a93;
@@ -148,6 +148,7 @@
         }
         
         .reason-text { font-style: italic; color: #333; background: #f0f0f0; padding: 12px; border-radius: 5px; margin-top: 10px; border-left: 4px solid var(--primary); }
+        .tense-badge { display: inline-block; background: var(--primary); color: white; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-style: normal; font-weight: bold; margin-bottom: 5px; }
 
         @media print {
             body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -161,56 +162,74 @@
 <body>
 
     <div class="header">
-        <h1>Verbs with Prepositions (to, at, for, about)</h1>
+        <h1>Comprehensive English Tenses Test</h1>
         <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
-        <p>Total Questions: 30</p>
+        <p>Total Questions: 25</p>
     </div>
 
     <div class="example-instruction">
-        Instruction: Choose the correct preposition that pairs with the verb in the sentence.
+        Instruction: Click on the correct verb form to complete the sentence. Your answer will lock in instantly.
     </div>
 
     <div id="quiz-container"></div>
     
     <div class="controls">
-        <button onclick="finishTest()">Finish Test & Generate PDF Report</button>
+        <button onclick="finishTest()">Finish & Generate Report (PDF)</button>
     </div>
 
-    <div id="score-display">Final Score: <span id="final-score">0</span> / 30</div>
+    <div id="score-display">Final Score: <span id="final-score">0</span> / 25</div>
     <div id="error-report"></div>
 
     <script>
         const quizData = [
-            { rule: "to", q: "1. She is listening ___ the radio in her room.", options: ["to", "at", "for"], a: "to" },
-            { rule: "at", q: "2. Look ___ that beautiful bird on the tree!", options: ["to", "at", "about"], a: "at" },
-            { rule: "for", q: "3. I am waiting ___ the school bus.", options: ["to", "for", "about"], a: "for" },
-            { rule: "about", q: "4. What are you thinking ___ right now?", options: ["to", "at", "about"], a: "about" },
-            { rule: "to", q: "5. This laptop belongs ___ my older brother.", options: ["to", "for", "at"], a: "to" },
-            { rule: "for", q: "6. He apologized ___ being late to the meeting.", options: ["to", "for", "about"], a: "for" },
-            { rule: "at", q: "7. Please do not shout ___ me. I can hear you.", options: ["to", "at", "for"], a: "at" },
-            { rule: "about", q: "8. We talked ___ the upcoming math exam.", options: ["to", "for", "about"], a: "about" },
-            { rule: "to", q: "9. Can you explain this grammar rule ___ me?", options: ["to", "at", "for"], a: "to" },
-            { rule: "at", q: "10. She smiled ___ the camera for the picture.", options: ["at", "to", "for"], a: "at" },
-            { rule: "for", q: "11. He asked the waiter ___ a glass of water.", options: ["to", "for", "about"], a: "for" },
-            { rule: "about", q: "12. Don't worry ___ the test, you will do great.", options: ["about", "for", "to"], a: "about" },
-            { rule: "to", q: "13. What happened ___ your car? It has a scratch.", options: ["at", "to", "for"], a: "to" },
-            { rule: "at", q: "14. Everyone laughed ___ the comedian's funny joke.", options: ["to", "at", "for"], a: "at" },
-            { rule: "for", q: "15. I need to pay ___ the groceries at the counter.", options: ["to", "for", "about"], a: "for" },
-            { rule: "about", q: "16. They complained ___ the cold weather outside.", options: ["about", "at", "to"], a: "about" },
-            { rule: "to", q: "17. Please talk ___ the manager if you have an issue.", options: ["to", "at", "for"], a: "to" },
-            { rule: "at", q: "18. Why are you staring ___ me like that?", options: ["to", "at", "about"], a: "at" },
-            { rule: "for", q: "19. I am looking ___ my lost keys. Have you seen them?", options: ["for", "at", "to"], a: "for" },
-            { rule: "about", q: "20. Have you heard ___ the new software update?", options: ["about", "for", "at"], a: "about" },
-            { rule: "to", q: "21. He spoke ___ the audience with great confidence.", options: ["to", "at", "for"], a: "to" },
-            { rule: "at", q: "22. She pointed ___ the tall building in the distance.", options: ["at", "to", "for"], a: "at" },
-            { rule: "for", q: "23. Are you applying ___ the new cybersecurity job?", options: ["to", "for", "about"], a: "for" },
-            { rule: "about", q: "24. I care deeply ___ my family's well-being.", options: ["about", "for", "to"], a: "about" },
-            { rule: "for", q: "25. I apologize ___ the mistake I made yesterday.", options: ["to", "for", "about"], a: "for" },
-            { rule: "at", q: "26. The dog barked ___ the stranger walking by.", options: ["at", "to", "for"], a: "at" },
-            { rule: "for", q: "27. I need to ask you ___ a small favor.", options: ["for", "about", "to"], a: "for" },
-            { rule: "about", q: "28. Do you know anything ___ the new transfer student?", options: ["about", "to", "at"], a: "about" },
-            { rule: "to", q: "29. Please reply ___ my email as soon as possible.", options: ["to", "at", "for"], a: "to" },
-            { rule: "at", q: "30. The angry customer yelled ___ the cashier.", options: ["at", "to", "for"], a: "at" }
+            // Present Simple
+            { tense: "Present Simple", q: "1. The earth ___ around the sun.", options: ["revolve", "revolves", "is revolving", "has revolved"], a: "revolves" },
+            { tense: "Present Simple", q: "2. She rarely ___ coffee in the evening.", options: ["drink", "is drinking", "drinks", "has drunk"], a: "drinks" },
+            
+            // Present Continuous
+            { tense: "Present Continuous", q: "3. Shhh! The baby ___ right now.", options: ["sleeps", "is sleeping", "has slept", "was sleeping"], a: "is sleeping" },
+            { tense: "Present Continuous", q: "4. They ___ for their final exams these days.", options: ["study", "have studied", "are studying", "were studying"], a: "are studying" },
+            
+            // Present Perfect (The extra question is added here)
+            { tense: "Present Perfect", q: "5. I ___ my homework, can I go out now?", options: ["finish", "am finishing", "finished", "have finished"], a: "have finished" },
+            { tense: "Present Perfect", q: "6. She ___ to Paris three times in her life.", options: ["goes", "went", "has been", "is going"], a: "has been" },
+            { tense: "Present Perfect", q: "7. We ___ each other since childhood.", options: ["knew", "have known", "are knowing", "know"], a: "have known" },
+            
+            // Present Perfect Continuous
+            { tense: "Present Perfect Continuous", q: "8. He ___ on this project for six months.", options: ["works", "is working", "has worked", "has been working"], a: "has been working" },
+            { tense: "Present Perfect Continuous", q: "9. It ___ all day, the streets are completely flooded.", options: ["rains", "is raining", "has rained", "has been raining"], a: "has been raining" },
+            
+            // Past Simple
+            { tense: "Past Simple", q: "10. They ___ the museum last weekend.", options: ["visit", "visited", "have visited", "were visiting"], a: "visited" },
+            { tense: "Past Simple", q: "11. I ___ a terrible headache yesterday.", options: ["have", "had", "was having", "have had"], a: "had" },
+            
+            // Past Continuous
+            { tense: "Past Continuous", q: "12. I ___ deeply when the loud phone rang.", options: ["sleep", "slept", "was sleeping", "have slept"], a: "was sleeping" },
+            { tense: "Past Continuous", q: "13. What ___ at 8 PM last night?", options: ["did you do", "were you doing", "have you done", "are you doing"], a: "were you doing" },
+            
+            // Past Perfect
+            { tense: "Past Perfect", q: "14. By the time the police arrived, the thief ___.", options: ["escapes", "escaped", "has escaped", "had escaped"], a: "had escaped" },
+            { tense: "Past Perfect", q: "15. She told me she ___ the movie before.", options: ["sees", "saw", "has seen", "had seen"], a: "had seen" },
+            
+            // Past Perfect Continuous
+            { tense: "Past Perfect Continuous", q: "16. They ___ for two hours before the bus finally arrived.", options: ["waited", "were waiting", "had waited", "had been waiting"], a: "had been waiting" },
+            { tense: "Past Perfect Continuous", q: "17. He was extremely tired because he ___ all night.", options: ["drove", "was driving", "had driven", "had been driving"], a: "had been driving" },
+            
+            // Future Simple
+            { tense: "Future Simple", q: "18. I think it ___ tomorrow.", options: ["rains", "is raining", "will rain", "will be raining"], a: "will rain" },
+            { tense: "Future Simple", q: "19. I promise I ___ your secret to anyone.", options: ["don't tell", "am not telling", "won't tell", "haven't told"], a: "won't tell" },
+            
+            // Future Continuous
+            { tense: "Future Continuous", q: "20. This time tomorrow, I ___ on a beach in Hawaii.", options: ["relax", "will relax", "will be relaxing", "will have relaxed"], a: "will be relaxing" },
+            { tense: "Future Continuous", q: "21. Please don't call at 9 PM; we ___ dinner.", options: ["eat", "will eat", "will be eating", "will have eaten"], a: "will be eating" },
+            
+            // Future Perfect
+            { tense: "Future Perfect", q: "22. By next month, she ___ her master's degree.", options: ["completes", "will complete", "will be completing", "will have completed"], a: "will have completed" },
+            { tense: "Future Perfect", q: "23. They ___ the bridge by the end of the year.", options: ["build", "will build", "will be building", "will have built"], a: "will have built" },
+            
+            // Future Perfect Continuous
+            { tense: "Future Perfect Continuous", q: "24. By next year, I ___ at this company for a decade.", options: ["work", "will work", "will have worked", "will have been working"], a: "will have been working" },
+            { tense: "Future Perfect Continuous", q: "25. By 5 PM, the athletes ___ for three hours.", options: ["run", "will run", "will have run", "will have been running"], a: "will have been running" }
         ];
 
         let score = 0;
@@ -218,7 +237,7 @@
         const container = document.getElementById('quiz-container');
         const answeredQuestions = new Set();
 
-        // Render the Quiz
+        // Render the Quiz without showing the tense names
         quizData.forEach((item, qIndex) => {
             const qCard = document.createElement('div');
             qCard.className = 'question-card';
@@ -229,7 +248,7 @@
             item.options.forEach((opt, optIndex) => {
                 html += `
                     <label class="option-label" id="label-${qIndex}-${optIndex}">
-                        <input type="radio" name="q${qIndex}" value="${opt}" onchange="checkAnswer(${qIndex}, '${opt}', '${item.a}', this, '${item.rule}')">
+                        <input type="radio" name="q${qIndex}" value="${opt}" onchange="checkAnswer(${qIndex}, '${opt}', '${item.a}', this, '${item.tense}')">
                         ${opt}
                     </label>
                 `;
@@ -240,7 +259,7 @@
         });
 
         // Validation Logic
-        function checkAnswer(qIndex, selectedAns, correctAns, radioInput, rule) {
+        function checkAnswer(qIndex, selectedAns, correctAns, radioInput, tense) {
             const card = document.getElementById(`card-${qIndex}`);
             
             if (card.classList.contains('locked')) return;
@@ -258,7 +277,7 @@
                     q: quizData[qIndex].q,
                     studentAns: selectedAns,
                     correctAns: correctAns,
-                    rule: rule
+                    tense: tense
                 });
             }
 
@@ -272,14 +291,22 @@
             }
         }
 
-        // Explanations for the Report
-        function getExplanation(rule) {
-            switch(rule) {
-                case "to": return "Verbs followed by 'to' usually show direction or the receiver of an action (e.g., listen to, speak to, explain to, belong to).";
-                case "at": return "Verbs followed by 'at' usually point to a target, direction of gaze, or an aggressive action (e.g., look at, point at, shout at, laugh at).";
-                case "for": return "Verbs followed by 'for' usually express purpose, looking for something, or giving a reason (e.g., wait for, look for, ask for, apologize for).";
-                case "about": return "Verbs followed by 'about' usually introduce the subject or topic of a thought/conversation (e.g., talk about, think about, worry about).";
-                default: return "Review standard verb and preposition pairings.";
+        // Explanations for the Report Based on Tense
+        function getExplanation(tenseName) {
+            switch(tenseName) {
+                case "Present Simple": return "Used for daily habits, universal facts, or routines. Structure: Subject + V1(s/es).";
+                case "Present Continuous": return "Used for temporary actions or actions happening right now. Structure: Subject + is/am/are + V1(-ing).";
+                case "Present Perfect": return "Used for actions finished at an unspecified time in the past, or past actions that have a result in the present. Structure: Subject + has/have + V3.";
+                case "Present Perfect Continuous": return "Used for actions that started in the past and are still happening now (focuses on duration). Structure: Subject + has/have + been + V1(-ing).";
+                case "Past Simple": return "Used for finished actions at a specific time in the past. Structure: Subject + V2.";
+                case "Past Continuous": return "Used for an action that was in progress at a specific time in the past, or interrupted by another action. Structure: Subject + was/were + V1(-ing).";
+                case "Past Perfect": return "Used for the 'past of the past' - an action that happened before another action in the past. Structure: Subject + had + V3.";
+                case "Past Perfect Continuous": return "Used to show how long an action was happening in the past before something else interrupted it. Structure: Subject + had + been + V1(-ing).";
+                case "Future Simple": return "Used for predictions, promises, or instant decisions about the future. Structure: Subject + will + V1.";
+                case "Future Continuous": return "Used for actions that will be in progress at a specific time in the future. Structure: Subject + will + be + V1(-ing).";
+                case "Future Perfect": return "Used for actions that will be completed by a certain deadline in the future. Structure: Subject + will + have + V3.";
+                case "Future Perfect Continuous": return "Used to show the duration of an action up to a certain point in the future. Structure: Subject + will + have + been + V1(-ing).";
+                default: return "Review tense structures.";
             }
         }
 
@@ -292,7 +319,7 @@
                         q: item.q,
                         studentAns: "(Left Blank)",
                         correctAns: item.a,
-                        rule: item.rule
+                        tense: item.tense
                     });
                 }
             });
@@ -308,10 +335,11 @@
                 incorrectLog.forEach((err) => {
                     html += `
                     <div class="error-item">
+                        <span class="tense-badge">Tested Topic: ${err.tense}</span>
                         <p class="question-text">${err.q}</p>
                         <div class="wrong-ans">[X] Your Answer: ${err.studentAns}</div>
-                        <div class="right-ans">[+] Correct Answer: ${err.correctAns}</div>
-                        <p class="reason-text"><strong>Grammar Rule:</strong> ${getExplanation(err.rule)}</p>
+                        <div class="right-ans">[✓] Correct Answer: ${err.correctAns}</div>
+                        <p class="reason-text"><strong>Grammar Rule:</strong> ${getExplanation(err.tense)}</p>
                     </div>`;
                 });
                 reportDiv.innerHTML = html;
