@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Master 4-Week Performance Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            -webkit-font-smoothing: antialiased;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .chart-container {
+            position: relative;
+            height: 180px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background-color: #ffffff;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.25rem;
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .badge-red { background-color: #fee2e2; color: #b91c1c; }
+        .badge-yellow { background-color: #fef3c7; color: #b45309; }
+        .badge-green { background-color: #d1fae5; color: #047857; }
+        .badge-blue { background-color: #dbeafe; color: #1d4ed8; }
+        
+        .tab-btn {
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        .tab-active {
+            background-color: #1e293b;
+            color: #ffffff;
+        }
+        .tab-inactive {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+    </style>
+</head>
+<body class="pb-12 text-slate-800">
+
+    <header class="bg-white pt-10 pb-4 px-4 sticky top-0 z-50 shadow-sm border-b border-slate-200">
+        <div class="max-w-md mx-auto">
+            <h1 class="text-2xl font-bold tracking-tight text-slate-900">Monthly Progress</h1>
+            <p class="text-slate-500 text-sm mt-1 mb-4">English Grammar Master Plan</p>
+            
+            <nav class="flex gap-2 overflow-x-auto hide-scrollbar pb-2">
+                <button onclick="showWeek('week1')" id="btn-week1" class="tab-btn tab-active px-5 py-2 rounded-full font-semibold text-sm">Week 1</button>
+                <button onclick="showWeek('week2')" id="btn-week2" class="tab-btn tab-inactive px-5 py-2 rounded-full font-semibold text-sm">Week 2</button>
+                <button onclick="showWeek('week3')" id="btn-week3" class="tab-btn tab-inactive px-5 py-2 rounded-full font-semibold text-sm">Week 3</button>
+                <button onclick="showWeek('week4')" id="btn-week4" class="tab-btn tab-inactive px-5 py-2 rounded-full font-semibold text-sm">Week 4</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-md mx-auto px-4 mt-6">
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <div id="week1" class="week-content block animate-fade-in">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1">Week 1: Foundations</h2>
+            
+            <!-- W1: Punctuation -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Punctuation</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Capitalization & Marks</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-yellow mb-1 block w-fit ml-auto">Average</span>
+                        <span class="text-xl font-bold">61%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w1-punct-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>Apostrophes:</strong> Distinguish between contractions (<i>they're</i>) and possessives (<i>children's</i>).</span></li>
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>End Marks:</strong> Use full stops for indirect questions (<i>I wonder what time it is.</i>).</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W1: Nouns -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Nouns</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Types & Forms</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-green mb-1 block w-fit ml-auto">Good</span>
+                        <span class="text-xl font-bold">80%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w1-nouns-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>Irregular Plurals:</strong> Memorize exceptions (<i>leaf -> leaves</i>, not leafs).</span></li>
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>Feminine Forms:</strong> Review specific spellings (<i>Tiger -> Tigress</i>).</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W1: Pronouns -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Pronouns</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Retest Progress</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-blue mb-1 block w-fit ml-auto">Excellent</span>
+                        <span class="text-xl font-bold">90%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w1-pronouns-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-indigo-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>Who vs Whom:</strong> Use the "He vs Him" replacement trick for objective cases.</span></li>
+                        <li class="flex gap-3"><span class="text-indigo-500 mt-0.5">▪</span><span><strong>Demonstrative Distance:</strong> Practice physical distance indicators (<i>those</i> for far).</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <div id="week2" class="week-content hidden animate-fade-in">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1">Week 2: Modifiers & Actions</h2>
+            
+            <!-- W2: Adjectives -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Adjectives</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">with Prepositions</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-green mb-1 block w-fit ml-auto">Very Good</span>
+                        <span class="text-xl font-bold">90%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w2-adj-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-teal-500 mt-0.5">▪</span><span><strong>Adjective Collocations:</strong> Memorize tricky pairs (e.g., <i>upset about</i>, not upset of).</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W2: Articles -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Articles & Det.</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">A, An, The</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-green mb-1 block w-fit ml-auto">Very Good</span>
+                        <span class="text-xl font-bold">90%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w2-art-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-teal-500 mt-0.5">▪</span><span><strong>Vowel Sounds:</strong> Focus on sounds, not just letters (e.g., <i>an honest man</i>).</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W2: Verbs -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Verbs</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">w/ Prepositions & Modals</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-blue mb-1 block w-fit ml-auto">Outstanding</span>
+                        <span class="text-xl font-bold">96%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w2-verbs-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-teal-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-teal-500 mt-0.5">▪</span><span><strong>Verb Phrases:</strong> Review verbs indicating purpose (<i>apologize for</i>).</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <div id="week3" class="week-content hidden animate-fade-in">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1">Week 3: Time & Tenses</h2>
+            
+            <!-- W3: Tenses Test 01 -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Tenses Test 01</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Includes all 12 tenses</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-yellow mb-1 block w-fit ml-auto">Good</span>
+                        <span class="text-xl font-bold">75%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w3-test1-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Past Perfect:</strong> Review actions happening before another past action (<i>had left</i>).</span></li>
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Future Perfect Cont.:</strong> Note the duration of actions up to a future point.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W3: Tenses Test 02 -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Tenses Test 02</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Includes all 12 tenses</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-green mb-1 block w-fit ml-auto">Very Good</span>
+                        <span class="text-xl font-bold">84%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w3-test2-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Past Continuous:</strong> Remember it's for in-progress past actions (<i>were doing</i>).</span></li>
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Future Simple:</strong> Use <i>will</i> for promises and instant decisions.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W3: Tenses Transformation -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Transformations</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Present, Past, Future</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-blue mb-1 block w-fit ml-auto">Huge Progress</span>
+                        <span class="text-xl font-bold">68%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis (Progress)</h4>
+                    <div class="chart-container"><canvas id="w3-transform-chart"></canvas></div>
+                    <p class="text-xs text-slate-500 text-center mt-2">Score improved from 47% (Present) to 96% (Future).</p>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-rose-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Auxiliary Mastery:</strong> Re-visit Present Simple questions (using <i>Do/Does</i>).</span></li>
+                        <li class="flex gap-3"><span class="text-rose-500 mt-0.5">▪</span><span><strong>Consistency:</strong> Maintain the excellent structure shown in Future Tense testing.</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <div id="week4" class="week-content hidden animate-fade-in">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 ml-1">Week 4: Structure & Connection</h2>
+            
+            <!-- W4: Adverbs -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Adverbs</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Types & Placement</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-blue mb-1 block w-fit ml-auto">Perfect</span>
+                        <span class="text-xl font-bold">100%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w4-adv-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-amber-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-amber-500 mt-0.5">▪</span><span><strong>Maintain Standard:</strong> Excellent grasp of manner, time, and frequency. No immediate action required.</span></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- W4: Prepositions -->
+            <section class="card">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-bold text-lg">Prepositions</h3>
+                        <p class="text-slate-500 text-sm mt-0.5">Time, Place, Direction</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="badge badge-yellow mb-1 block w-fit ml-auto">Average</span>
+                        <span class="text-xl font-bold">73%</span>
+                    </div>
+                </div>
+                <div class="p-5 bg-slate-50">
+                    <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Visual Analysis</h4>
+                    <div class="chart-container"><canvas id="w4-prep-chart"></canvas></div>
+                </div>
+                <div class="p-5">
+                    <h4 class="text-xs font-bold text-amber-600 uppercase tracking-widest mb-3">Immediate Actions</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex gap-3"><span class="text-amber-500 mt-0.5">▪</span><span><strong>Time Prepositions:</strong> Practice rules for specific times vs months (<i>at 15:30</i> vs <i>in July</i>).</span></li>
+                        <li class="flex gap-3"><span class="text-amber-500 mt-0.5">▪</span><span><strong>Place Prepositions:</strong> Distinguish surface contact (<i>on</i>) from enclosure (<i>in</i>).</span></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <script>
+        // Tab Navigation Logic
+        function showWeek(weekId) {
+            // Hide all content
+            document.querySelectorAll('.week-content').forEach(el => {
+                el.classList.add('hidden');
+                el.classList.remove('block');
+            });
+            // Show selected content
+            document.getElementById(weekId).classList.remove('hidden');
+            document.getElementById(weekId).classList.add('block');
+
+            // Update tab styles
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('tab-active');
+                btn.classList.add('tab-inactive');
+            });
+            document.getElementById('btn-' + weekId).classList.remove('tab-inactive');
+            document.getElementById('btn-' + weekId).classList.add('tab-active');
+        }
+
+        // Common Chart Options optimized for mobile
+        const commonPieOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { boxWidth: 10, font: { size: 10 } } }
+            },
+            cutout: '65%',
+            layout: { padding: 0 }
+        };
+
+        // Initialize all charts on load
+        window.onload = function() {
+            // W1 Punctuation
+            new Chart(document.getElementById('w1-punct-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [40, 25], backgroundColor: ['#6366f1', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W1 Nouns
+            new Chart(document.getElementById('w1-nouns-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [80, 20], backgroundColor: ['#10b981', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W1 Pronouns (Progress Bar)
+            new Chart(document.getElementById('w1-pronouns-chart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Initial', 'Retest'],
+                    datasets: [{ label: 'Score %', data: [68, 90], backgroundColor: ['#cbd5e1', '#3b82f6'], borderRadius: 4, barThickness: 30 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { max: 100, ticks: { font: { size: 10 }, callback: v => v + '%' } }, x: { ticks: { font: { size: 10 } } } } }
+            });
+
+            // W2 Adjectives
+            new Chart(document.getElementById('w2-adj-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [27, 3], backgroundColor: ['#14b8a6', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W2 Articles
+            new Chart(document.getElementById('w2-art-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [27, 3], backgroundColor: ['#14b8a6', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W2 Verbs
+            new Chart(document.getElementById('w2-verbs-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [29, 1], backgroundColor: ['#3b82f6', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+
+            // W3 Tenses Test 01
+            new Chart(document.getElementById('w3-test1-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [9, 3], backgroundColor: ['#f59e0b', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W3 Tenses Test 02
+            new Chart(document.getElementById('w3-test2-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [21, 4], backgroundColor: ['#10b981', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            
+            // W3 Tenses Transformations (Trend Bar)
+            new Chart(document.getElementById('w3-transform-chart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Present', 'Past', 'Future'],
+                    datasets: [{ label: 'Score %', data: [47, 61, 96], backgroundColor: ['#f43f5e', '#f59e0b', '#3b82f6'], borderRadius: 4, barThickness: 25 }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { max: 100, ticks: { font: { size: 10 }, callback: v => v + '%' } }, x: { ticks: { font: { size: 10 } } } } }
+            });
+
+            // W4 Adverbs
+            new Chart(document.getElementById('w4-adv-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [20, 0], backgroundColor: ['#3b82f6', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+            // W4 Prepositions
+            new Chart(document.getElementById('w4-prep-chart').getContext('2d'), {
+                type: 'doughnut',
+                data: { labels: ['Correct', 'Incorrect'], datasets: [{ data: [22, 8], backgroundColor: ['#f59e0b', '#e2e8f0'], borderWidth: 0 }] },
+                options: commonPieOptions
+            });
+        };
+    </script>
+</body>
+</html>
