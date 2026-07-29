@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week 1 Grand Test - SJC Tech</title>
+    <title>Week 2 Grade Test: Adjectives & Articles</title>
     <style>
         :root {
             --primary: #1f3a93;
@@ -160,9 +160,9 @@
 <body>
 
     <div class="header">
-        <h1>Week 1 Grand Test</h1>
+        <h1>Week 2 Grade Test</h1>
         <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
-        <p>Total Questions: 30 | Topics: Punctuation, Nouns, Pronouns</p>
+        <p>Total Questions: 20 | Topics: Adjectives, Articles</p>
     </div>
 
     <div id="quiz-container"></div>
@@ -171,46 +171,34 @@
         <button onclick="finishTest()">Finish Test & Generate PDF Report</button>
     </div>
 
-    <div id="score-display">Final Score: <span id="final-score">0</span> / 30</div>
+    <div id="score-display">Final Score: <span id="final-score">0</span> / 20</div>
     <div id="error-report"></div>
 
     <script>
         const quizData = [
-            // SECTION 1: PUNCTUATION
-            { section: "Section 1: The Capital Letter & Punctuation", q: "1. Choose the sentence with the correct capitalization:", options: ["we are going to london next monday.", "We are going to London next Monday.", "We are going to london next Monday."], a: "We are going to London next Monday.", rule: "Always capitalize the first letter of a sentence, proper nouns like cities (London), and days of the week (Monday)." },
-            { q: "2. Choose the correctly punctuated list:", options: ["I need to buy milk bread eggs and butter.", "I need to buy milk, bread, eggs and butter.", "I need to buy milk, bread, eggs, and butter."], a: "I need to buy milk, bread, eggs, and butter.", rule: "Use commas to separate three or more items in a list." },
-            { q: "3. Which punctuation mark ends this sentence? 'Watch out for that car'", options: [".", "?", "!"], a: "!", rule: "Use an exclamation mark to show strong emotion, a warning, or sudden surprise." },
-            { q: "4. Choose the correct spelling for the contraction of 'they are':", options: ["Theyr'e", "They're", "Theyre"], a: "They're", rule: "The apostrophe replaces the missing letter 'a' in 'they are'." },
-            { q: "5. Choose the correctly punctuated sentence regarding singular possession:", options: ["This is Peters backpack.", "This is Peter's backpack.", "This is Peters' backpack."], a: "This is Peter's backpack.", rule: "For a singular proper noun like Peter, add an apostrophe followed by 's' ('s) to show possession." },
-            { q: "6. Choose the correctly punctuated sentence:", options: ["I wonder what time the train arrives.", "I wonder what time the train arrives?", "I wonder what time the train arrives!"], a: "I wonder what time the train arrives.", rule: "Indirect questions (starting with 'I wonder...') are statements, not direct questions. They end with a full stop." },
-            { q: "7. Which of the following is an incomplete sentence (fragment)?", options: ["The cat slept on the warm mat.", "Please pass the salt.", "Because it was raining outside."], a: "Because it was raining outside.", rule: "A sentence starting with 'Because' needs a main clause to make it complete. On its own, it is a fragment." },
-            { q: "8. Choose the correctly punctuated sentence containing an appositive:", options: ["My brother a talented musician plays the piano.", "My brother, a talented musician, plays the piano.", "My brother a talented musician, plays the piano."], a: "My brother, a talented musician, plays the piano.", rule: "Appositives (extra information describing a noun) must be enclosed by commas on both sides." },
-            { q: "9. Choose the correctly punctuated sentence regarding irregular plural possession:", options: ["The childrens playground is closed.", "The children's playground is closed.", "The childrens' playground is closed."], a: "The children's playground is closed.", rule: "Irregular plural nouns that do not end in 's' (like children, men, women) take an apostrophe + s ('s) for possession." },
-            { q: "10. Choose the sentence with the correct capitalization:", options: ["My favorite month of the Year is December.", "My favorite month of the year is december.", "My favorite month of the year is December."], a: "My favorite month of the year is December.", rule: "Months (December) are proper nouns and must be capitalized. General nouns like 'month' and 'year' are common nouns and remain lowercase." },
+            // SECTION 1: ADJECTIVES
+            { section: "Section 1: Adjectives", q: "1. The weather today is very ___.", options: ["beautiful", "beautifully", "beauty"], a: "beautiful", rule: "An adjective describes a noun. 'Beautiful' describes the weather." },
+            { q: "2. This math puzzle is ___ than the one we did yesterday.", options: ["easy", "easiest", "easier"], a: "easier", rule: "When comparing two things, use the comparative degree (easier)." },
+            { q: "3. I am getting completely bored ___ this long movie.", options: ["of", "about", "with"], a: "with", rule: "The adjective 'bored' is naturally followed by the preposition 'with'." },
+            { q: "4. My father is very excited ___ his new job promotion.", options: ["of", "with", "about"], a: "about", rule: "Certain adjectives are naturally followed by 'about', such as excited about, happy about, and upset about." },
+            { q: "5. He was deeply sorry ___ breaking the expensive vase.", options: ["with", "of", "about"], a: "about", rule: "The adjective 'sorry' expressing regret for an action is followed by 'about'." },
+            { q: "6. She was very upset ___ losing her favorite watch.", options: ["of", "with", "about"], a: "about", rule: "Emotions like upset, angry, and furious regarding an event are followed by 'about'." },
+            { q: "7. Between the two sisters, Sarah is definitely the ___.", options: ["smartest", "more smart", "smarter"], a: "smarter", rule: "Even with 'the', when comparing exactly two people, we use the comparative degree (smarter), not the superlative (smartest)." },
+            { q: "8. The new apartment is fully furnished ___ modern furniture.", options: ["by", "with", "about"], a: "with", rule: "The adjective 'furnished' is always paired with the preposition 'with'." },
+            { q: "9. She was wearing a ___ dress to the party.", options: ["beautiful long black silk", "black long beautiful silk", "silk beautiful black long"], a: "beautiful long black silk", rule: "The correct order of adjectives is: Opinion (beautiful), Size/Length (long), Color (black), Material (silk)." },
+            { q: "10. Since he has ___ friends in the new city, he often feels very lonely.", options: ["a few", "a little", "few"], a: "few", rule: "'Few' means almost none and has a negative meaning (causing loneliness). 'A few' means some, which would be positive. Friends are countable, so we cannot use 'a little'." },
 
-            // SECTION 2: NOUNS
-            { section: "Section 2: Nouns", q: "11. Identify the common nouns in this sentence: 'The doctor works in a hospital.'", options: ["doctor", "hospital", "doctor, hospital"], a: "doctor, hospital", rule: "Common nouns are general names for people, places, or things. Both doctor and hospital are general." },
-            { q: "12. Identify the proper noun(s) in this sentence: 'We traveled to Japan last summer.'", options: ["Japan", "Japan, summer", "traveled, Japan"], a: "Japan", rule: "Proper nouns refer to specific names of places or people and are always capitalized. 'Summer' is a common noun." },
-            { q: "13. Identify the correct collective noun: 'We saw a ___ of fish swimming in the coral reef.'", options: ["herd", "school", "swarm"], a: "school", rule: "A group of fish is called a 'school'." },
-            { q: "14. Identify the abstract noun in this sentence: 'The soldier showed great bravery.'", options: ["soldier", "showed", "bravery"], a: "bravery", rule: "Abstract nouns refer to ideas, qualities, or states that you cannot touch or see physically, like bravery." },
-            { q: "15. Is the noun 'Information' countable or uncountable?", options: ["Countable", "Uncountable", "Both"], a: "Uncountable", rule: "Information is uncountable. You cannot say 'one information' or 'informations'. It is always treated as a singular block." },
-            { q: "16. What is the correct feminine form of the noun 'Tiger'?", options: ["Tigeres", "Tigress", "Tigeress"], a: "Tigress", rule: "The feminine form of Tiger drops the 'e' and adds 'ess' to become Tigress." },
-            { q: "17. What is the correct feminine form of the noun 'Actor'?", options: ["Actoress", "Actress", "Actorine"], a: "Actress", rule: "The feminine form of Actor drops the 'o' and adds 'ess' to become Actress." },
-            { q: "18. What is the correct plural form of the noun 'Leaf'?", options: ["Leafs", "Leaves", "Leavs"], a: "Leaves", rule: "For nouns ending in 'f' or 'fe', change the 'f' to 'v' and add 'es'." },
-            { q: "19. What is the correct plural form of the noun 'Tooth'?", options: ["Tooths", "Teeth", "Teethes"], a: "Teeth", rule: "Tooth is an irregular noun. Its plural form changes the vowels entirely to 'Teeth'." },
-            { q: "20. Identify the abstract noun in this sentence: 'The beauty of the painting amazed us.'", options: ["beauty", "painting", "amazed"], a: "beauty", rule: "Beauty is a concept/quality (abstract noun). 'Painting' is a concrete noun, and 'amazed' is a verb." },
-
-            // SECTION 3: PRONOUNS
-            { section: "Section 3: Pronouns", q: "21. ___ are planning to travel to Japan next summer.", options: ["We", "Us", "Them"], a: "We", rule: "Use a subject pronoun (We) at the beginning of a sentence doing the action." },
-            { q: "22. The teacher handed the test papers to ___.", options: ["they", "their", "them"], a: "them", rule: "Use an object pronoun (them) after a preposition ('to') or when receiving an action." },
-            { q: "23. Look at the birds high up in the sky. ___ are bald eagles.", options: ["This", "These", "Those"], a: "Those", rule: "Use 'those' for plural objects that are far away." },
-            { q: "24. I baked this chocolate cake all by ___.", options: ["me", "mine", "myself"], a: "myself", rule: "Use a reflexive pronoun (myself) when the subject ('I') and the object of the action are the same person." },
-            { q: "25. The kids are old enough to look after ___.", options: ["themself", "theirselves", "themselves"], a: "themselves", rule: "The correct plural reflexive spelling is 'themselves'." },
-            { q: "26. The cat washed ___ carefully after eating dinner.", options: ["himself", "itself", "themselves"], a: "itself", rule: "For animals (when gender is unspecified or irrelevant), use the pronoun 'it' and its reflexive form 'itself'." },
-            { q: "27. Hello, ___ is Mark speaking. Is Sarah available? (On the phone)", options: ["this", "that", "these"], a: "this", rule: "When identifying yourself on a phone call or introducing yourself, use 'This is [Name]'." },
-            { q: "28. My brother and ___ went to the park yesterday.", options: ["me", "mine", "I"], a: "I", rule: "When a pronoun is part of a compound subject doing the action (went), use the subject pronoun 'I'." },
-            { q: "29. The musician, ___ I admire greatly, is coming to our city.", options: ["who", "whom", "which"], a: "whom", rule: "Use 'whom' as the object of a verb or preposition. Try the 'He/Him' trick: 'I admire him', so use 'whom'." },
-            { q: "30. The team members to ___ the manager spoke were very professional.", options: ["who", "whom", "whose"], a: "whom", rule: "Always use 'whom' immediately following a preposition like 'to', 'for', or 'with' (e.g., 'to whom')." }
+            // SECTION 2: ARTICLES
+            { section: "Section 2: Articles & Determiners", q: "11. I saw ___ dog running in the park.", options: ["a", "an", "the"], a: "a", rule: "Use 'a' for a singular, non-specific noun starting with a consonant." },
+            { q: "12. Look at ___ sun! It is incredibly bright today.", options: ["a", "an", "the"], a: "the", rule: "Use 'the' for unique objects in nature (the sun, the moon, the earth)." },
+            { q: "13. My brother wants to be ___ astronaut when he grows up.", options: ["a", "an", "the"], a: "an", rule: "Use 'an' before a singular profession starting with a vowel sound." },
+            { q: "14. Would you like ___ cup of tea?", options: ["the", "an", "a"], a: "a", rule: "Use 'a' for general, non-specific items. You are asking for any cup of tea, not a specific one." },
+            { q: "15. He returned the lost wallet because he is ___ honest man.", options: ["a", "an", "the"], a: "an", rule: "Use 'an' before words starting with a vowel SOUND. The 'h' in honest is silent." },
+            { q: "16. My cousin is currently studying at ___ university.", options: ["a", "an", "the"], a: "a", rule: "Use 'a' before words starting with a consonant SOUND. 'University' starts with a 'Y' sound (yoo-ni-ver-si-ty)." },
+            { q: "17. Excuse me, what is ___ name of your school?", options: ["a", "an", "the"], a: "the", rule: "Use 'the' because you are asking for a specific name of a specific school, not just any random name." },
+            { q: "18. I bought a pen and a pencil. ___ pen is red, but ___ pencil is blue.", options: ["A / a", "The / the", "A / the"], a: "The / the", rule: "Use 'the' when referring to a noun that has already been mentioned in the previous sentence." },
+            { q: "19. My uncle is ___ European citizen, and he owns ___ one-eyed dog.", options: ["an / an", "an / a", "a / a"], a: "a / a", rule: "Both words start with consonant SOUNDS. 'European' sounds like 'Yoo', and 'one-eyed' sounds like 'Won'. Therefore, both take 'a'." },
+            { q: "20. ___ water is essential for human life, but ___ water in this bottle is extremely dirty.", options: ["[No Article] / the", "The / the", "A / the"], a: "[No Article] / the", rule: "Use no article for uncountable nouns speaking generally (water is essential). Use 'the' when specifying which water (the water in this bottle)." }
         ];
 
         let score = 0;
@@ -326,3 +314,4 @@
     </script>
 </body>
 </html>
+
