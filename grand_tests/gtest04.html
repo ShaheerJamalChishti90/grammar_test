@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4 Grand Test - SJC Tech</title>
+    <style>
+        :root {
+            --primary: #1f3a93;
+            --secondary: #34495e;
+            --correct-dark: #006400; 
+            --incorrect-dark: #8B0000; 
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f7;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary);
+        }
+        .header h1 { color: var(--primary); margin-bottom: 5px; }
+        .header h3 { color: var(--secondary); margin-top: 0; font-weight: normal; }
+        
+        .section-title {
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+
+        .question-text { 
+            font-weight: bold; 
+            font-size: 16px; 
+            margin-bottom: 15px;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+            background-color: #f0f2f5;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, color 0.2s;
+            font-size: 15px;
+        }
+        .option-label input[type="radio"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+        .option-label:hover {
+            background-color: #e2e6ea;
+        }
+        
+        .option-label.correct {
+            background-color: var(--correct-dark) !important;
+            color: white;
+            font-weight: bold;
+        }
+        .option-label.incorrect {
+            background-color: var(--incorrect-dark) !important;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .question-card.locked {
+            pointer-events: none;
+        }
+
+        .controls { text-align: center; margin: 40px 0; }
+        button {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background-color: #219150; }
+        
+        #score-display {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f8f5;
+            border-radius: 8px;
+            display: none;
+        }
+
+        #error-report {
+            display: none;
+            margin-top: 40px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-top: 5px solid var(--incorrect-dark);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #error-report h2 { color: var(--incorrect-dark); margin-top: 0; }
+        .error-item {
+            border-bottom: 2px solid #eee;
+            padding: 20px 0;
+        }
+        .error-item:last-child { border-bottom: none; }
+        
+        .wrong-ans { 
+            background-color: var(--incorrect-dark); 
+            color: white; 
+            font-weight: bold; 
+            padding: 12px; 
+            border-radius: 5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .right-ans { 
+            background-color: var(--correct-dark); 
+            color: white; 
+            font-weight: bold; 
+            padding: 12px; 
+            border-radius: 5px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .reason-text { font-style: italic; color: #333; background: #f0f0f0; padding: 12px; border-radius: 5px; margin-top: 10px; border-left: 4px solid var(--primary); }
+
+        @media print {
+            body { background: white; margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .controls { display: none; }
+            .question-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+            #error-report { display: block !important; page-break-before: always; box-shadow: none; border: 1px solid #ccc; }
+            .error-item { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Week 4 Grand Test</h1>
+        <h3>Instructor: Muhammad Shaheer Jamal Chishti</h3>
+        <p>Total Questions: 40 | Topics: Verbs, Adverbs, Prepositions, Conjunctions</p>
+    </div>
+
+    <div id="quiz-container"></div>
+    
+    <div class="controls">
+        <button onclick="finishTest()">Finish Test & Generate PDF Report</button>
+    </div>
+
+    <div id="score-display">Final Score: <span id="final-score">0</span> / 40</div>
+    <div id="error-report"></div>
+
+    <script>
+        const quizData = [
+            // SECTION 1: VERBS (with Prepositions)
+            { section: "Section 1: Verbs with Prepositions", q: "1. She is listening ___ the radio in her room.", options: ["to", "at", "for"], a: "to", rule: "The verb 'listen' is always followed by the preposition 'to' when indicating the object being heard." },
+            { q: "2. I am waiting ___ the school bus.", options: ["to", "for", "about"], a: "for", rule: "The verb 'wait' takes 'for' when anticipating a person, thing, or event." },
+            { q: "3. What are you thinking ___ right now?", options: ["to", "at", "about"], a: "about", rule: "The verb 'think' is followed by 'about' when considering a specific topic or idea." },
+            { q: "4. This laptop belongs ___ my older brother.", options: ["to", "for", "at"], a: "to", rule: "The verb 'belong' takes 'to' to show ownership or possession." },
+            { q: "5. He asked the waiter ___ a glass of water.", options: ["to", "for", "about"], a: "for", rule: "The verb 'ask' is followed by 'for' when making a request for an object." },
+            { q: "6. Have you heard ___ the new software update?", options: ["about", "for", "at"], a: "about", rule: "The verb 'hear' takes 'about' when referring to receiving news or information regarding a topic." },
+            { q: "7. Why are you staring ___ me like that?", options: ["to", "at", "about"], a: "at", rule: "The verb 'stare' takes 'at' to indicate the direct target of the gaze." },
+            { q: "8. I need to pay ___ the groceries at the counter.", options: ["to", "for", "about"], a: "for", rule: "The verb 'pay' is followed by 'for' when indicating the item or service being purchased." },
+            { q: "9. I apologize ___ the mistake I made yesterday.", options: ["to", "for", "about"], a: "for", rule: "Verbs followed by 'for' usually express purpose, looking for something, or giving a reason (e.g., apologize for a mistake)." },
+            { q: "10. The angry customer yelled ___ the cashier.", options: ["at", "to", "for"], a: "at", rule: "When expressing aggressive or sudden communication directed toward someone (yell, shout, bark), use 'at'." },
+
+            // SECTION 2: ADVERBS
+            { section: "Section 2: Adverbs", q: "11. The doctor told me to breathe ___.", options: ["deeply", "never", "soon"], a: "deeply", rule: "Adverbs of Manner tell us HOW an action happens. 'Deeply' describes how to breathe." },
+            { q: "12. The children are playing ___ in the garden.", options: ["outside", "usually", "loudly"], a: "loudly", rule: "Adverbs of Manner describe how the action is done ('loudly'). Note: 'outside' is an adverb of place, but 'in the garden' already indicates place." },
+            { q: "13. We will have the meeting ___ week.", options: ["next", "always", "quickly"], a: "next", rule: "Adverbs of Time tell us WHEN an action happens." },
+            { q: "14. I ___ forget to bring my umbrella.", options: ["sometimes", "upstairs", "loudly"], a: "sometimes", rule: "Adverbs of Frequency tell us HOW OFTEN an action happens." },
+            { q: "15. The subway travels ___ to avoid traffic.", options: ["underground", "tomorrow", "easily"], a: "underground", rule: "Adverbs of Place tell us WHERE an action happens." },
+            { q: "16. Identify the type of adverb: 'Juan grinned **mischievously**.'", options: ["Adverb of Time", "Adverb of Place", "Adverb of Manner"], a: "Adverb of Manner", rule: "Words ending in -ly that describe how an action is performed are Adverbs of Manner." },
+            { q: "17. Identify the type of adverb: 'Have you seen him **lately**?'", options: ["Adverb of Time", "Adverb of Frequency", "Adverb of Place"], a: "Adverb of Time", rule: "'Lately' refers to a timeframe (recently), making it an Adverb of Time." },
+            { q: "18. They traveled ___ for their summer vacation.", options: ["abroad", "sometimes", "tightly"], a: "abroad", rule: "'Abroad' is an Adverb of Place indicating a location outside of one's home country." },
+            { q: "19. Which sentence contains an adverb of frequency?", options: ["She works efficiently.", "He visits his grandparents often.", "They went upstairs."], a: "He visits his grandparents often.", rule: "'Often' tells us how frequently the visits occur." },
+            { q: "20. (Logical Challenge) Choose the correct word: 'He studied very ___ for the final exam.'", options: ["hard", "hardly", "hards"], a: "hard", rule: "'Hard' is an irregular adverb meaning 'with a lot of effort'. 'Hardly' means 'almost not at all'." },
+
+            // SECTION 3: PREPOSITIONS
+            { section: "Section 3: Prepositions", q: "21. Her birthday is ___ July.", options: ["at", "in", "on"], a: "in", rule: "Use 'in' for months, years, seasons, and parts of the day." },
+            { q: "22. The new store opens ___ April 6.", options: ["at", "in", "on"], a: "on", rule: "Use 'on' for specific days and exact dates." },
+            { q: "23. The train arrives ___ 15:30.", options: ["at", "in", "on"], a: "at", rule: "Use 'at' for the specific time of day and expressions like 'at night'." },
+            { q: "24. Shahroze lives ___ a small town.", options: ["at", "in", "on"], a: "in", rule: "Use 'in' for places that surround us, like towns, cities, or countries." },
+            { q: "25. The picture is hanging ___ her bedroom wall.", options: ["at", "in", "on"], a: "on", rule: "Use 'on' for surfaces that something is touching (on a wall, on the floor)." },
+            { q: "26. They are watching a movie ___ the theater.", options: ["at", "in", "on"], a: "at", rule: "Use 'at' for specific points or special locations (at the doctor's, at the theater, at the crossroads)." },
+            { q: "27. The lost coin was hiding ___ the heavy bed.", options: ["under", "above", "opposite"], a: "under", rule: "Basic prepositions describe physical relationships. A coin hides 'under' a bed." },
+            { q: "28. Do not lean ___ the freshly painted wall!", options: ["against", "with", "near"], a: "against", rule: "'Against' indicates physical contact and pressure upon a surface." },
+            { q: "29. Shahroze sat ___ his two best friends.", options: ["among", "between", "without"], a: "between", rule: "Use 'between' when referring to exactly two distinct people or things." },
+            { q: "30. Shahroze distributed the sweets ___ all the children.", options: ["between", "among", "onto"], a: "among", rule: "Use 'among' when referring to a group of three or more people or things." },
+
+            // SECTION 4: CONJUNCTIONS
+            { section: "Section 4: Conjunctions", q: "31. I wanted to go to the park, ___ it started to rain heavily.", options: ["but", "or", "so"], a: "but", rule: "Coordinating Conjunction: 'But' shows a contrast or exception between two independent clauses." },
+            { q: "32. The acronym 'FANBOYS' is used to remember which type of conjunctions?", options: ["Subordinating Conjunctions", "Correlative Conjunctions", "Coordinating Conjunctions"], a: "Coordinating Conjunctions", rule: "FANBOYS stands for For, And, Nor, But, Or, Yet, So (Coordinating Conjunctions)." },
+            { q: "33. We stayed inside the house ___ it was raining heavily.", options: ["because", "although", "unless"], a: "because", rule: "Subordinating Conjunction: 'Because' introduces a dependent clause giving a reason." },
+            { q: "34. ___ she was very tired, she finished all her homework.", options: ["Because", "Although", "Until"], a: "Although", rule: "Subordinating Conjunction: 'Although' introduces a dependent clause showing contrast or an unexpected result." },
+            { q: "35. You cannot watch television ___ you finish your vegetables.", options: ["unless", "while", "since"], a: "unless", rule: "Subordinating Conjunction: 'Unless' means 'except if' and introduces a condition." },
+            { q: "36. I have known my best friend ___ we were in kindergarten.", options: ["after", "since", "until"], a: "since", rule: "Subordinating Conjunction: 'Since' refers to a starting point in time for an action that continues." },
+            { q: "37. You can choose ___ the red shirt or the blue shirt.", options: ["both", "either", "neither"], a: "either", rule: "Correlative Conjunction: 'Either' pairs with 'or' to present a choice between two options." },
+            { q: "38. She is ___ intelligent, but also very hardworking.", options: ["not", "both", "not only"], a: "not only", rule: "Correlative Conjunction: 'Not only' always pairs with 'but also'." },
+            { q: "39. Identify the conjunctions: '**Neither** the teacher **nor** the students knew the answer.'", options: ["Subordinating Conjunctions", "Coordinating Conjunctions", "Correlative Conjunctions"], a: "Correlative Conjunctions", rule: "Correlative conjunctions always work in pairs to connect elements of equal rank (neither/nor, both/and)." },
+            { q: "40. (Logical Challenge) ___ had I sat down to rest than the doorbell rang.", options: ["No sooner", "Not only", "Whether"], a: "No sooner", rule: "Correlative Conjunction: 'No sooner' always pairs with 'than' to indicate one action happening immediately after another." }
+        ];
+
+        let score = 0;
+        let incorrectLog = [];
+        const container = document.getElementById('quiz-container');
+        const answeredQuestions = new Set();
+
+        // Render the Quiz
+        quizData.forEach((item, qIndex) => {
+            if (item.section) {
+                const secTitle = document.createElement('h2');
+                secTitle.className = 'section-title';
+                secTitle.innerText = item.section;
+                container.appendChild(secTitle);
+            }
+
+            const qCard = document.createElement('div');
+            qCard.className = `question-card`;
+            qCard.id = `card-${qIndex}`;
+            
+            let html = `
+                <div class="question-text">${item.q}</div>
+            `;
+            
+            item.options.forEach((opt, optIndex) => {
+                html += `
+                    <label class="option-label" id="label-${qIndex}-${optIndex}">
+                        <input type="radio" name="q${qIndex}" value="${opt}" onchange="checkAnswer(${qIndex}, '${opt}', '${item.a}', this, '${item.rule.replace(/'/g, "\\'")}')">
+                        ${opt}
+                    </label>
+                `;
+            });
+
+            qCard.innerHTML = html;
+            container.appendChild(qCard);
+        });
+
+        // Validation Logic
+        function checkAnswer(qIndex, selectedAns, correctAns, radioInput, rule) {
+            const card = document.getElementById(`card-${qIndex}`);
+            
+            if (card.classList.contains('locked')) return;
+
+            answeredQuestions.add(qIndex);
+            const label = radioInput.parentElement;
+
+            if (selectedAns === correctAns) {
+                label.classList.add('correct');
+                score++;
+            } else {
+                label.classList.add('incorrect');
+                
+                incorrectLog.push({
+                    q: quizData[qIndex].q,
+                    studentAns: selectedAns,
+                    correctAns: correctAns,
+                    rule: rule
+                });
+            }
+
+            card.classList.add('locked');
+            
+            const nextCard = document.getElementById(`card-${qIndex + 1}`);
+            if (nextCard) {
+                setTimeout(() => {
+                    nextCard.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 400);
+            }
+        }
+
+        // Finalize Test
+        function finishTest() {
+            quizData.forEach((item, index) => {
+                if (!answeredQuestions.has(index)) {
+                    document.getElementById(`card-${index}`).classList.add('locked');
+                    incorrectLog.push({
+                        q: item.q,
+                        studentAns: "(Left Blank)",
+                        correctAns: item.a,
+                        rule: item.rule
+                    });
+                }
+            });
+
+            document.getElementById('score-display').style.display = 'block';
+            document.getElementById('final-score').innerText = score;
+            
+            const reportDiv = document.getElementById('error-report');
+            
+            if (incorrectLog.length > 0) {
+                let html = `<h2>Correction Report</h2><p>Review the exact logic and rules for the questions you missed.</p>`;
+                
+                incorrectLog.forEach((err) => {
+                    html += `
+                    <div class="error-item">
+                        <p class="question-text">${err.q}</p>
+                        <div class="wrong-ans">[X] Your Answer: ${err.studentAns}</div>
+                        <div class="right-ans">[+] Correct Answer: ${err.correctAns}</div>
+                        <p class="reason-text"><strong>Logical Rule:</strong> ${err.rule}</p>
+                    </div>`;
+                });
+                reportDiv.innerHTML = html;
+            } else {
+                reportDiv.innerHTML = `<h2 style="color:var(--correct-dark)">Perfect Score! Outstanding Job.</h2>`;
+            }
+            
+            reportDiv.style.display = 'block';
+            
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
+    </script>
+</body>
+</html>
